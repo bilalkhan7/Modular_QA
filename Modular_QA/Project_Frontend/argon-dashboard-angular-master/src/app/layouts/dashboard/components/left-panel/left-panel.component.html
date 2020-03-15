@@ -1,0 +1,39 @@
+<div class="container-fluid">
+  <div class="card">
+    <div class="card-body">
+      <div class="container-fluid mb-5">
+      <div class="row align-items-center">
+        <div class="col">
+          <h2 class="mb-1">Select Dimension</h2>
+          <form [formGroup]="oppoSuitsForm" (ngSubmit)="onSubmit()">
+            <select formControlName="name">
+              <option value="">Choose Dimension</option>
+              <option *ngFor="let suit of oppoSuits">{{suit}}</option>
+            </select>
+            <div class="error-block" *ngIf="submitted && handleError('name', 'required')">
+              You must provide a value!
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid mb-5">
+      <div class="row align-items-center">
+        <div class="col">
+          <h2>Tables Attrtibutes</h2>
+          <div class="dashboard-container-vertical">
+            <div cdkDropList #moviesList="cdkDropList" [cdkDropListData]="MoviesList" class="dashboard-list-vertical"
+              (cdkDropListDropped)="drop($event)">
+              <div class="dashboard-box-vertical" *ngFor="let moviesList of MoviesList" cdkDrag>
+                {{moviesList}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+</div>

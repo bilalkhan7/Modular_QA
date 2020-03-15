@@ -1,0 +1,117 @@
+<div class="container-fluid">
+  <div class="row align-items-center">
+    <div class="col">
+      <div class="card">
+        <div class="card-body">
+
+
+          <div class="row align-items-center">
+            <div class="col-10">
+              <div class="row">
+                <div class="col">
+                  <div class="card-body">
+                    <h2>Fetch Query</h2>
+                    <div class="dashboard-container-horizontal">
+                      <div cdkDropList #doneMovieList="cdkDropList" [cdkDropListData]="MoviesWatched"
+                        class="dashboard-list-horizontal" (cdkDropListDropped)="drop($event)">
+                        <div class="dashboard-box-horizontal" *ngFor="let moviesWatched of MoviesWatched" cdkDrag>
+                          {{moviesWatched}}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-1">
+              <div class="col-0 ">
+                 <button class="btn btn-icon btn-primary" type="button">
+                  <span class="btn-inner--icon"><i class="ni ni-check-bold"></i></span>
+                  <span class="btn-inner--text">Submit</span>
+                </button></div>
+            </div>
+          </div>
+
+          <div class="container-fluid mb-5">
+            <div class="row">
+              <div class="col">
+                <div class="btn-group btn-group-toggle" data-toggle="buttons" style="float: right;">
+                  <button class="btn btn-secondary" [ngClass]="{'active': isShowDivIf }"
+                    (click)="toggleDisplay('table')"> Table</button>
+                  <button class="btn btn-secondary" [ngClass]="{'active': !isShowDivIf }"
+                    (click)="toggleDisplay('graph')"> Graph</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="container-fluid mb-5">
+            <div class="row">
+              <div class="col">
+                <div *ngIf="isShowDivIf">
+                  <app-search-component></app-search-component>
+
+                  <div class="container mb-2">
+                    <nav aria-label="Page navigation example">
+                      <ul class="pagination justify-content-end">
+                        <li class="page-item disabled">
+                          <a class="page-link" href="#" tabindex="-1">
+                            <i class="fa fa-angle-left"></i>
+                            <span class="sr-only">Previous</span>
+                          </a>
+                        </li>
+                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item active"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                          <a class="page-link" href="#">
+                            <i class="fa fa-angle-right"></i>
+                            <span class="sr-only">Next</span>
+                          </a>
+                        </li>
+                      </ul>
+                    </nav>
+                  </div>
+                </div>
+                <div *ngIf="!isShowDivIf">
+                  <div class="card bg-default">
+                    <div class="card-header bg-transparent">
+                      <div class="row align-items-center">
+                        <div class="col">
+                          <h6 class="text-light text-uppercase ls-1 mb-1">Overview</h6>
+                          <h5 class="h3 text-white mb-0">Sales value</h5>
+                        </div>
+                        <div class="col">
+                          <ul class="nav nav-pills justify-content-end">
+                            <li class="nav-item mr-2 mr-md-0" data-toggle="chart" data-target="#chart-sales-dark" data-update="{&quot;data&quot;:{&quot;datasets&quot;:[{&quot;data&quot;:[0, 20, 10, 30, 15, 40, 20, 60, 60]}]}}" data-prefix="$" data-suffix="k">
+                              <a href="#" class="nav-link py-2 px-3 active" data-toggle="tab">
+                                <span class="d-none d-md-block">Month</span>
+                                <span class="d-md-none">M</span>
+                              </a>
+                            </li>
+                            <li class="nav-item" data-toggle="chart" data-target="#chart-sales-dark" data-update="{&quot;data&quot;:{&quot;datasets&quot;:[{&quot;data&quot;:[0, 20, 5, 25, 10, 30, 15, 40, 40]}]}}" data-prefix="$" data-suffix="k">
+                              <a href="#" class="nav-link py-2 px-3" data-toggle="tab">
+                                <span class="d-none d-md-block">Week</span>
+                                <span class="d-md-none">W</span>
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <!-- Chart -->
+                      <div class="chart"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+                        <!-- Chart wrapper -->
+                        <canvas id="chart-sales-dark" class="chart-canvas chartjs-render-monitor" width="792" height="350" style="display: block; width: 792px; height: 350px;"></canvas>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
