@@ -1,0 +1,37 @@
+<!DOCTYPE html> 
+<html> 
+<head> 
+    <title>Home Page</title> 
+    <style type="text/css" media="screen"> 
+        body { 
+            background-color: skyblue; 
+            text-decoration-color: white; 
+            /* font-size:7em;   */
+        } 
+    </style> 
+</head> 
+<body> 
+    <center> 
+        This is our Tables with attributes page.<br/> 
+        Welcome <%=table_attributes.command %>, to our home page. 
+    </center> 
+    <h4> Tables with attributes list </h4>
+    <ul>
+        <% for(var i=0; i<table_attributes.rows.length; i++) { %>
+                
+            <li>
+               <b> <%= table_attributes.rows[i].table_name %></b>
+            </li>
+        
+            <% for(var j=0; j<table_attributes.rows[i].columns.length; j++) { %>
+                
+            <li>
+                <%= table_attributes.rows[i].columns[j] %>
+            
+            </li>
+        
+
+        <% }} %>
+    </ul>
+</body> 
+</html> 
