@@ -7,8 +7,13 @@ import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app.routing';
 import { DragDropModule} from '@angular/cdk/drag-drop';
-import { DashboardModule } from './layouts/dashboard/dashboard.module';
 import { TablesService } from './services/tables.service';
+import { DashboardComponent } from './components/dashboard-component/dashboard.component';
+import { HeaderContainerComponent } from './components/header-container/header-container.component';
+import { LeftContainerComponent } from './components/left-container/left-container.component';
+import { SearchComponentComponent } from './components/search-component/search-component.component';
+import { CenterContainerComponent } from './components/center-container/center-container.component';
+
 
 @NgModule({
   imports: [
@@ -20,10 +25,16 @@ import { TablesService } from './services/tables.service';
     RouterModule,
     AppRoutingModule,
     DragDropModule,
-    DashboardModule
+
   ],
   declarations: [
     AppComponent,
+    DashboardComponent,
+    HeaderContainerComponent,
+    LeftContainerComponent,
+    HeaderContainerComponent,
+    SearchComponentComponent,
+    CenterContainerComponent
   ],
   providers: [TablesService],
   bootstrap: [AppComponent]

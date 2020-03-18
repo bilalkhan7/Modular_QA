@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import { FormBuilder, Validators } from '@angular/forms';
 @Component({
-  selector: 'app-left-panel',
-  templateUrl: './left-panel.component.html',
-  styleUrls: ['./left-panel.component.scss']
+  selector: 'app-left-container',
+  templateUrl: './left-container.component.html',
+  styleUrls: ['./left-container.component.scss']
 })
-export class LeftPanelComponent implements OnInit {
+export class LeftContainerComponent implements OnInit {
+
   public oppoSuitsForm: any = this.fb.group({name: ['', [Validators.required]]});
   public oppoSuits: any = ['Customer', 'Department', 'Days', 'Employee'];
   submitted = false;

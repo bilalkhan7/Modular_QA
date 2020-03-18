@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CenterPanelComponent } from './center-panel.component';
+import { CenterContainerComponent } from './center-container.component';
 
-describe('CenterPanelComponent', () => {
-  let component: CenterPanelComponent;
-  let fixture: ComponentFixture<CenterPanelComponent>;
+describe('CenterContainerComponent', () => {
+  let component: CenterContainerComponent;
+  let fixture: ComponentFixture<CenterContainerComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CenterPanelComponent ]
+      declarations: [ CenterContainerComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CenterPanelComponent);
+    fixture = TestBed.createComponent(CenterContainerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

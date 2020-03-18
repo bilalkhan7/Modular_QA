@@ -1,14 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import { FormBuilder, Validators } from '@angular/forms';
-
 @Component({
-  selector: 'app-center-panel',
-  templateUrl: './center-panel.component.html',
-  styleUrls: ['./center-panel.component.scss']
+  selector: 'app-center-container',
+  templateUrl: './center-container.component.html',
+  styleUrls: ['./center-container.component.scss']
 })
-export class CenterPanelComponent implements OnInit {
-
+export class CenterContainerComponent implements OnInit {
 
   submitted = false;
   public datasets: any;
@@ -46,4 +44,5 @@ export class CenterPanelComponent implements OnInit {
       this.isShowDivIf = false;
     }
     }
+
 }
