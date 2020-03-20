@@ -1,0 +1,22 @@
+
+.wrapper {
+  .sidebar {
+    background: rgba(255, 255, 255, 0.8) !important;
+  }
+  .sidebar:before {
+    background: rgba(255, 255, 255, 0.8) !important;
+  }
+  .sidebar:after {
+    background: rgba(255, 255, 255, 0.8) !important;
+  }
+
+  .main-panel {
+    background: rgba(0, 0, 0, 0.6) !important;
+  }
+  .main-panel:before {
+    background: rgba(0, 0, 0, 0.6) !important;
+  }
+  .main-panel:after {
+    background: rgba(0, 0, 0, 0.6) !important;
+  }
+}
