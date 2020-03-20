@@ -28,6 +28,12 @@ export const ROUTES: RouteInfo[] = [{
     type: 'link',
     icontype: 'dashboard'
   },
+  {
+    path: '',
+    title: 'Home',
+    type: 'link',
+    icontype: 'dashboard' 
+  }
 ]
 @Component({
   selector: 'app-sidebar-cmp',
