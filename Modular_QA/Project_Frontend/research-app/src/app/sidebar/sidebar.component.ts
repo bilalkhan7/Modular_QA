@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import PerfectScrollbar from 'perfect-scrollbar'
-/* import { TableService } from '../services/table.service' */
+ import { TableService } from '../services/table.service'  
 
 declare const $: any
 
@@ -53,6 +53,7 @@ export class SidebarComponent implements OnInit {
 
   ngOnInit() {
     this.menuItems = ROUTES.filter(menuItem => menuItem)
+     this.fetchData(); 
   }
   updatePS(): void  {
     if (window.matchMedia(`(min-width: 960px)`).matches && !this.isMac()) {
@@ -68,9 +69,12 @@ export class SidebarComponent implements OnInit {
     return bool
   }
 
-/*   constructor(private webTableService: TableService) {}
+   constructor(private webTableService: TableService) {} 
 
-  fetchData = () => {
+   fetchData = () => {
     this.people$ = this.webTableService.fetchData();
-  } */
+    console.log("output",this.people$);
+  } 
+   
+  
 }
