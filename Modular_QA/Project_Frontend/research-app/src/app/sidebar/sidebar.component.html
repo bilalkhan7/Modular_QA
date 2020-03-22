@@ -17,28 +17,10 @@
   <div class="nav-container">
     <ul class="nav">
       <li *ngFor="let menuitem of Tables$" >
-        <!--If is a single link-->
         <a [routerLink]="[menuitem.table_name]">
-          <!-- <i  class="material-icons">{{menuitem}}</i> -->
-          <p active  >{{menuitem.table_name}}</p>
+          <p active  >{{menuitem.table_name | titlecase}}</p>
         </a>
-        <!--If it have a submenu-->
-        <!-- <a data-toggle="collapse" href="#{{menuitem.collapse}}" > 
-           
-           <p>{{menuitem.columns}}<b class="caret"></b></p> 
-         </a>  -->
-
-        <!--Display the submenu items-->
-        <div id="{{menuitem.collapse}}" class="collapse" >
-          <ul class="nav">
-            <li routerLinkActive="active" *ngFor="let childitem of Tables$.columns">
-               <a [routerLink]="[menuitem.path, childitem.path]"> -->
-                <span class="sidebar-mini">&nbsp;</span>
-                <span class="sidebar-normal">{{childitem}}</span> -->
-              </a> 
-            </li>
-          </ul>
-        </div> 
+        
       </li>
     </ul>
   </div>
