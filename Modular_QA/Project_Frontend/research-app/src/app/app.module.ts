@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations' // this is needed!
 import { RouterModule } from '@angular/router'
-import { HttpModule } from '@angular/http'
+// import { HttpModule } from '@angular/http'
 import { APP_BASE_HREF } from '@angular/common'
 import { FormsModule } from '@angular/forms'
 import { CommonModule } from '@angular/common'
@@ -38,13 +38,14 @@ import {
   MatTooltipModule,
   MatStepperModule,
 } from '@angular/material'
-
+import {HttpClientModule} from '@angular/common/http';
 import { AppComponent } from './app.component'
 import { SidebarModule } from './sidebar/sidebar.module'
 import { NavbarModule } from './shared/navbar/navbar.module'
 import { AdminLayoutComponent } from './layouts/home/admin-layout.component'
 import { AppRoutes } from './app.routing'
 import { TableService } from './services/table.service'
+import { from } from 'rxjs/observable/from'
 
 @NgModule({
   exports: [
@@ -89,7 +90,7 @@ export class MaterialModule {}
     BrowserAnimationsModule,
     FormsModule,
     RouterModule.forRoot(AppRoutes),
-    HttpModule,
+    HttpClientModule,
     MaterialModule,
     MatNativeDateModule,
     SidebarModule,
