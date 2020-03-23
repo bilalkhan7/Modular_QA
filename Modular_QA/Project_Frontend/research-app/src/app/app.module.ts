@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router'
 import { APP_BASE_HREF } from '@angular/common'
 import { FormsModule } from '@angular/forms'
 import { CommonModule } from '@angular/common'
+
 import {
   MatAutocompleteModule,
   MatButtonModule,
@@ -46,6 +47,8 @@ import { AdminLayoutComponent } from './layouts/home/admin-layout.component'
 import { AppRoutes } from './app.routing'
 import { TableService } from './services/table.service'
 import { from } from 'rxjs/observable/from'
+import { NgDragDropModule } from 'ng-drag-drop';
+
 
 @NgModule({
   exports: [
@@ -79,7 +82,8 @@ import { from } from 'rxjs/observable/from'
     MatTableModule,
     MatTabsModule,
     MatToolbarModule,
-    MatTooltipModule
+    MatTooltipModule,
+    
   ]
 })
 export class MaterialModule {}
@@ -94,7 +98,10 @@ export class MaterialModule {}
     MaterialModule,
     MatNativeDateModule,
     SidebarModule,
-    NavbarModule
+    NavbarModule,
+    MatCardModule,
+    NgDragDropModule.forRoot()
+    
   ],
   declarations: [
     AppComponent,

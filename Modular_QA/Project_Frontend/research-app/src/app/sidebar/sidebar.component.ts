@@ -3,37 +3,7 @@ import { TableService } from '../services/table.service'
 
 declare const $: any
 
-//Metadata
-export interface RouteInfo {
-  path: string
-  title: string
-  type: string
-  icontype: string
-  collapse?: string
-  children?: ChildrenItems[]
-}
 
-export interface ChildrenItems {
-  path: string
-  title: string
-  ab: string
-  type?: string
-}
-
-//Menu Items
-export const ROUTES: RouteInfo[] = [{
-    path: '/dashboard',
-    title: 'Dashboard',
-    type: 'link',
-    icontype: 'dashboard'
-  },
-  {
-    path: '',
-    title: 'Home',
-    type: 'link',
-    icontype: 'dashboard' 
-  }
-]
 @Component({
   selector: 'app-sidebar-cmp',
   templateUrl: 'sidebar.component.html',
@@ -51,7 +21,7 @@ export class SidebarComponent implements OnInit {
       {
         {
           this.Tables$=data;
-          console.log("results", this.Tables$[0].columns);
+          // console.log("results", this.Tables$[0].columns);
           
         }
       }
