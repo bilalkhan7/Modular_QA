@@ -20,26 +20,16 @@
                                                     (cdkDropListDropped)="drop($event)"
                                                     cdkDropListOrientation="horizontal">
 
-                                                    <ul class="nav">
-                                                        <li routerLinkActive="active"
-                                                            *ngFor="let menuItem of tableMapDrop" cdkDrag
-                                                            class="list-group-item d-flex justify-content-between">
-                                                            <a class="nav-link" [routerLink]="[menuItem.table_name]">
-                                                                <p class="p-0 m-0 flex-grow-1">
-                                                                    {{menuItem.table_name | titlecase}}</p>
-                                                            </a>
-                                                            <button type="button" rel="tooltip" title=""
-                                                                class="btn btn-danger btn-link btn-sm"
-                                                                data-original-title="Remove"
-                                                                aria-describedby="tooltip998563">
-                                                                <i class="material-icons">close</i>
-                                                                <div class="ripple-container"></div>
-                                                            </button>
+                                                    <button type="button" class="btn btn-warning"
+                                                        style="text-align: left; background-color: #fd9b16;"
+                                                        *ngFor="let menuItem of tableMapDrop" cdkDrag
+                                                        ng-click="removeFromList(menuItem)">
+                                                        {{menuItem.table_name | titlecase}}
+                                                        <i class="material-icons">close</i>
 
-                                                        </li>
+                                                    </button>
 
 
-                                                    </ul>
                                                 </div>
                                             </div>
 

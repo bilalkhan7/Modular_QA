@@ -25,4 +25,9 @@ export class NavbarComponent  {
 
       }
 
+      removeFromList(addedItem) {
+        let index = this.tableMapDrop.indexOf(addedItem);
+        this.tableMapDrop.splice(index, 1); // Removes one element, starting from index
+    }
+
 }
