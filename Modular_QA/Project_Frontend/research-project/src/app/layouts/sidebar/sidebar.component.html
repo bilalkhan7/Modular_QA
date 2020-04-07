@@ -1,26 +1,12 @@
 <div class="logo">
-  <a href="https://www.creative-tim.com" class="simple-text">
+  <a class="simple-text">
     <div class="logo-img">
       <img src="/assets/img/angular2-logo-red.png" />
     </div>
     Research App
   </a>
-</div>
-<div class="collapse navbar-collapse justify-content-end" id="navigation">
-  <form class="navbar-form">
-    <span class="bmd-form-group">
-      <div class="input-group no-border">
-        <input type="text" value="" class="form-control" placeholder="Search...">
-        <button type="submit" class="btn btn-white btn-round btn-just-icon">
-          <i class="material-icons">search</i>
-          <div class="ripple-container"></div>
-        </button>
-      </div>
-    </span>
-  </form>
-</div>
 
-
+</div>
 
 <!-- 
 <div class="sidebar-wrapper">
@@ -38,12 +24,42 @@
  -->
 
 <div class="sidebar-wrapper" id="dragListTable" cdkDropList [cdkDropListConnectedTo]="['dropListTable']">
+
   <ul class="nav">
-      <li routerLinkActive="active" *ngFor="let menuItem of tableMap" cdkDrag [cdkDragData]="menuItem">
+
+    <!-- <mat-form-field>
+      <input type="text" placeholder="Search Attributes"  aria-label="State" matInput [matAutocomplete]="auto" [formControl]="myForm">
+
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let menuItem of filteredStates | async" [value]=" menuItem.table_name | titlecase " (onSelectionChange)=onSelectedState(menuItem) cdkDrag
+          [cdkDragData]="menuItem">
+          {{menuItem.table_name | titlecase}}
+          
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field> -->
+
+    <div class="container">
+      <mat-form-field>
+        <mat-select [formControl]="bankCtrl" placeholder="Bank" #singleSelect>
+          <mat-option>
+            <ngx-mat-select-search [formControl]="bankFilterCtrl"></ngx-mat-select-search>
+          </mat-option>
+    
+          <mat-option *ngFor="let bank of tableMap " [value]="bank">
+            {{bank.table_name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+     <li routerLinkActive="active" *ngFor="let menuItem of tableMap | slice:0:5; " cdkDrag [cdkDragData]="menuItem">
       <a class="nav-link" [routerLink]="[menuItem.table_name]">
         <p>{{menuItem.table_name | titlecase}}</p>
       </a>
 
-    </li>
+    </li> 
   </ul>
+
+  
 </div>

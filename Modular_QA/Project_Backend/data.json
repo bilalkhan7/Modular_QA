@@ -1,0 +1,17 @@
+{
+	"q1":{
+		"column": "name",
+		"table": "student",
+		"operation": "=",
+		"value":"bilal"
+	}
+,
+	"q2":{
+		"column": "subject",
+		"table": "sub",
+		"operation": "=",
+		"value":"social"
+	}
+
+}
+
