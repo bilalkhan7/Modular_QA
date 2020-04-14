@@ -104,6 +104,23 @@ query = {
   ]
 };
 
+// query = {
+// 	"table1":{
+// 		"or": [{field: 'age', operator: '<=', value: 'Bobd'}],
+//     "and": [{field: 'age', operator: '<=', value: 'Bobd'}]
+//   },
+
+//   "table2":{
+// 		"or": [{field: 'age', operator: '<=', value: 'Bobd'}],
+//     "and": [{field: 'age', operator: '<=', value: 'Bobd'}]
+//   },
+//   "table3":{
+// 		"or": [{field: 'age', operator: '<=', value: 'Bobd'}],
+//     "and": [{field: 'age', operator: '<=', value: 'Bobd'}]
+//   }
+// 	}
+
+
 config: QueryBuilderConfig = {
   fields: {
     age: {name: 'Age', type: 'number'},

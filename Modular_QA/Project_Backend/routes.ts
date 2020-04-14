@@ -11,8 +11,11 @@ var request = require('request');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
+app.get('/', db.getdata);
+
 app.get('/table_attributes', db.getTable_attributes);
 
+app.get('/', db.getTable_attributes);
 app.get('/foreign', db.getForeign);
 
 app.use(function(req, res, next) {
