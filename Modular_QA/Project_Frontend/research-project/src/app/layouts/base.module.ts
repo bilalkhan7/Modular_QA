@@ -14,13 +14,12 @@ import {MatSelectModule} from '@angular/material/select';
 import {TableService } from './services/table.service';
 import {MatIconModule} from '@angular/material/icon';
 import {HttpClientModule } from '@angular/common/http';
-import { QueryBuilderModule } from 'angular2-query-builder';
+/* import { QueryBuilderModule } from 'angular2-query-builder'; */
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatRadioModule } from '@angular/material/radio';
-
 
 
 @NgModule({
@@ -42,10 +41,11 @@ import { MatRadioModule } from '@angular/material/radio';
     MatNativeDateModule,
     MatDatepickerModule,
     MatRadioModule,
-    QueryBuilderModule,
+   /*  QueryBuilderModule, */
   ],
   declarations: [
     DashboardComponent,
+    
 
 
 

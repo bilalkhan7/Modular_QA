@@ -1,141 +1,93 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, ViewEncapsulation,OnChanges,DoCheck, OnInit, SimpleChanges,ChangeDetectionStrategy,ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
-import { QueryBuilderClassNames, QueryBuilderConfig } from 'angular2-query-builder';
+import { QueryBuilderClassNames, QueryBuilderConfig, Field, FieldMap } from 'angular2-query-builder';
+import { QuerybuilderService } from '../services/querybuilder.service';
+import { TablesMap } from '../interface/tables.map';
+
+
+
 @Component({
   selector: 'app-querybuilder',
-   templateUrl: './querybuilder.component.html',
+  templateUrl: './querybuilder.component.html',
   styleUrls: ['./querybuilder.component.css'],
+  changeDetection:ChangeDetectionStrategy.OnPush
+
+ 
 })
-export class QuerybuilderComponent  {
+export class QuerybuilderComponent implements OnChanges,DoCheck,OnInit  {
 
-public queryCtrl: FormControl;
-//  public query = {
-//     condition: 'and',
-//     rules: [
-//       {field: 'age', operator: '<=', entity: 'physical'},
-//       {field: 'name', operator: '++++', entities: 'physical'},
-//       {field: 'birthday', operator: '=', value: new Date(), entity: 'nonphysical'},
-//       {
-//         condition: 'or',
-//         rules: [
-//           {field: 'gender', operator: '=', entity: 'physical'},
-//           {field: 'occupation', operator: 'in', entity: 'nonphysical'},
-//           {field: 'school', operator: 'is null', entity: 'nonphysical'},
-//           {field: 'notes', operator: '=', entity: 'nonphysical'}
-//         ]
-//       }
-//     ]
-//   };
+  @Input() tableMapDrop:TablesMap[];
 
-//   public entityConfig: QueryBuilderConfig = {
-//     entities: {
-//       physical: {name: 'Physical Attributes'},
-//       nonphysical: {name: 'Nonphysical Attributes'}
-//     },
-//     fields: {
-//       age: {name: 'Age', type: 'number', entity: 'physical'},
-//       bilal: {name: 'Bilal', type: 'number', entity: 'physical'},
-//       gender: {
-//         name: 'Gender',
-//         entity: 'physical',
-//         type: 'category',
-//         options: [
-//           {name: 'Male', value: 'm'},
-//           {name: 'Female', value: 'f'}
-//         ]
-//       },
-//       name: {name: 'Name', type: 'string', entity: 'nonphysical'},
-//       notes: {name: 'Notes', type: 'textarea', operators: ['=', '!='], entity: 'nonphysical'},
-//       educated: {name: 'College Degree?', type: 'boolean', entity: 'nonphysical'},
-//       birthday: {name: 'Birthday', type: 'date', operators: ['=', '<=', '>'],
-//         defaultValue: (() => new Date()), entity: 'nonphysical'
-//       },
-//       school: {name: 'School', type: 'string', nullable: true, entity: 'nonphysical'},
-//       occupation: {
-//         name: 'Occupation',
-//         entity: 'nonphysical',
-//         type: 'category',
-//         options: [
-//           {name: 'Student', value: 'student'},
-//           {name: 'Teacher', value: 'teacher'},
-//           {name: 'Unemployed', value: 'unemployed'},
-//           {name: 'Scientist', value: 'scientist'}
-//         ]
-//       }
-//     }
-//   };
-
-//   public config: QueryBuilderConfig = {
-//     fields: {
-//       age: {name: 'Age', type: 'number'},
-//       gender: {
-//         name: 'Gender',
-//         type: 'category',
-//         options: [
-//           {name: 'Male', value: 'm'},
-//           {name: 'Female', value: 'f'}
-//         ]
-//       },
-//       name: {name: 'Name', type: 'string'},
-//       notes: {name: 'Notes', type: 'textarea', operators: ['=', '!=']},
-//       educated: {name: 'College Degree?', type: 'boolean'},
-//       birthday: {name: 'Birthday', type: 'date', operators: ['=', '<=', '>'],
-//         defaultValue: (() => new Date())
-//       },
-//       school: {name: 'School', type: 'string', nullable: true},
-//       occupation: {
-//         name: 'Occupation',
-//         type: 'category',
-//         options: [
-//           {name: 'Student', value: 'student'},
-//           {name: 'Teacher', value: 'teacher'},
-//           {name: 'Unemployed', value: 'unemployed'},
-//           {name: 'Scientist', value: 'scientist'}
-//         ]
-//       }
-//     }
-//   };
-
-query = {
-  condition: 'and',
-  rules: [
-    {field: 'age', operator: '<=', value: 'Bobd'},
-
-  ]
-};
-
-config: QueryBuilderConfig = {
-  fields: {
-    age: {name: 'Age', type: 'number'},
-    bilal: {name: 'bilal', type: 'number'},
-    gender: {
-      name: 'Gender',
-      type: 'category',
-      options: [
-        {name: 'Male', value: 'm'},
-        {name: 'Female', value: 'f'}
-      ]
-    }
-  }
-}
+  public tables_name: Array<string> = [];
   public currentConfig: QueryBuilderConfig;
   public allowRuleset = false;
   public allowCollapse: boolean;
-  public persistValueOnFieldChange = false;
+  public persistValueOnFieldChange = false; 
+  public queryCtrl: FormControl;
+ 
+  query = {
+    condition: 'and',
+    rules: [
+      { field: 'attribute_name', operator: '', value: ''},
+    ], 
+  };
 
-  constructor(
-    private formBuilder: FormBuilder
-  ) {
-    // this.queryCtrl = this.formBuilder.control(this.query);
-    // console.log('this is query', this.queryCtrl);
-    // this.currentConfig = this.config;
+   config: QueryBuilderConfig = {
+   /*  entities:{
+      table_name:{name:'',value:'string',defaultField:'null' }
+    }, */
+   
+    fields: {
+      attribute_name:{name:'', type : 'string',options:[{name: 'Male', value: 'm'}]},
+      }
+  }
+ 
+ 
+  constructor(private formBuilder: FormBuilder,private cd:ChangeDetectorRef) {
+    
+   }
+ 
+  
+ 
+  ngOnInit() {
+   // console.log('value changed', this.tableMapDrop);
+      /*  console.log('value changed', this.tableMapDrop); */
   }
 
-  // switchModes(event: Event) {
-  //   this.currentConfig = (<HTMLInputElement>event.target).checked ? this.entityConfig : this.config;
-  // }
+  public mapDataToQueryBuilder() {
 
-  // changeDisabled(event: Event) {
-  //   (<HTMLInputElement>event.target).checked ? this.queryCtrl.disable() : this.queryCtrl.enable();
-  // }
+    console.log('table',this.tableMapDrop);
+    this.tableMapDrop.map(items => 
+      {for(let i=0;i<items.columns.length-1;i++){
+        (
+          console.log("Test Items",items.columns[i]),
+          this.config.fields.attribute_name.name =items.columns[i],
+          this.config.fields.attribute_name.type='string',
+          this.config.fields.attribute_name.value=items.columns[i]
+                
+          )   
+      }}
+        
+    );
+    
+      //console.log("Droped Results table details", this.tableMapDrop.map(items => items.columns))
+      console.log("Config", this.config.fields.table_name)   
+     
+    }
+  
+   ngOnChanges(changes: SimpleChanges){
+    
+     // console.log("change detected");
+   //  alert(changes);   
+    
+     // alert(JSON.stringify(val));             
+  }
+  ngDoCheck()
+  {
+    //this.cd.detectChanges();
+    this.cd.markForCheck();
+    this.mapDataToQueryBuilder();
+  } 
+
+ 
 }

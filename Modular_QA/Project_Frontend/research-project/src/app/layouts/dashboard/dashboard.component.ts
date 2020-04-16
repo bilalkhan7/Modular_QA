@@ -9,7 +9,7 @@ import * as Chartist from 'chartist';
 export class DashboardComponent implements OnInit {
 
   constructor() { }
-  startAnimationForLineChart(chart){
+  startAnimationForLineChart(chart) {
       let seq: any, delays: any, durations: any;
       seq = 0;
       delays = 80;

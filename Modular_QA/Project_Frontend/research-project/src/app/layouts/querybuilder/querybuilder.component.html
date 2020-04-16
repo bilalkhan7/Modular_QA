@@ -1,44 +1,14 @@
-<div class="container ">
+<div >
+<mat-card  >
+    <query-builder [data]='query' [config]='config' >
+        <ng-container *queryInput="let rule; type: 'date'">
+          <!-- <custom-datepicker [(ngModel)]="rule.value"></custom-datepicker> -->
+        </ng-container>
+      </query-builder> 
+    
+    </mat-card>
 
-    <div class="col-lg-12 col-md-5">
-        <div class="card">
-            <div class="card-header card-header-warning">
-                <h4 class="card-title">Drop Attributes </h4>
-            </div>
+    <ng-container><textarea class="output">{{query | json}}</textarea></ng-container>
 
-            <div class="card-body ">
-                <div class="row">
-                    <div class="col">
-                        <form>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <mat-card>
-                                      <query-builder [value]='query' [config]='config'>
-                                        <ng-container *queryInput="let rule; type: 'date'">
-                                          <custom-datepicker [(ngModel)]="rule.value"></custom-datepicker>
-                                        </ng-container>
-                                      </query-builder>
-                                        <ng-container><textarea class="output">{{query | json}}</textarea></ng-container>
-                                        
-                                        </mat-card>
-                                </div>
-                            </div>
-                            <button type="submit" class="btn pull-right"
-                                style="background-color: #fd9b16;">Search</button>
-                            <div class="clearfix"></div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-
-
-
-
-
-
+  </div> 
+   

@@ -5,7 +5,6 @@ import {TablesMap} from '../interface/tables.map';
 
 
 @Injectable()
-
 export class TableService {
  constructor(private http: HttpClient) { }
   fetchData = (): Observable<TablesMap[]> => {
