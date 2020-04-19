@@ -1,93 +1,139 @@
-import { Component, Input, ViewEncapsulation,OnChanges,DoCheck, OnInit, SimpleChanges,ChangeDetectionStrategy,ChangeDetectorRef } from '@angular/core';
+import { Component, Input, ViewEncapsulation, OnChanges, DoCheck, OnInit, SimpleChanges, ChangeDetectionStrategy, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
-import { QueryBuilderClassNames, QueryBuilderConfig, Field, FieldMap } from 'angular2-query-builder';
+import { QueryBuilderClassNames, QueryBuilderConfig, Field, FieldMap, Entity, QueryBuilderComponent, Rule, RuleSet } from 'angular2-query-builder';
 import { QuerybuilderService } from '../services/querybuilder.service';
 import { TablesMap } from '../interface/tables.map';
-
+//import { config } from 'rxjs';
+import { TableService } from '../services/table.service'
 
 
 @Component({
   selector: 'app-querybuilder',
   templateUrl: './querybuilder.component.html',
   styleUrls: ['./querybuilder.component.css'],
-  changeDetection:ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.Default
 
- 
+
 })
-export class QuerybuilderComponent implements OnChanges,DoCheck,OnInit  {
+export class QuerybuilderComponent implements OnChanges, OnInit {
 
-  @Input() tableMapDrop:TablesMap[];
-
+  @Input() tableMapDrop: TablesMap[];
+  @ViewChild(QueryBuilderComponent, { static: true }) queryBuilder: QueryBuilderComponent;
   public tables_name: Array<string> = [];
   public currentConfig: QueryBuilderConfig;
-  public allowRuleset = false;
+  public allowRuleset = true;
   public allowCollapse: boolean;
-  public persistValueOnFieldChange = false; 
+  public persistValueOnFieldChange = false;
   public queryCtrl: FormControl;
- 
-  query = {
-    condition: 'and',
-    rules: [
-      { field: 'attribute_name', operator: '', value: ''},
-    ], 
-  };
+  public config: QueryBuilderConfig;
+  public query: { condition: string; rules: { field: any; operator: string; value: string; }[]; };
+  public entity_table: string='';
+  /* public fieldss:{
+    [key: string]:
+    {
+      name: string;value?: string;type: string;nullable?: boolean;options?: {name: string;value: any;};Option: any[];
+    operators?: string[];
+    defaultValue?: any;
+    defaultOperator?: any;
+    entity?: string;
+    validator?: (rule: Rule, parent: RuleSet) => any | null;
+   }; Field: any;}; }; */
 
-   config: QueryBuilderConfig = {
-   /*  entities:{
-      table_name:{name:'',value:'string',defaultField:'null' }
-    }, */
-   
-    fields: {
-      attribute_name:{name:'', type : 'string',options:[{name: 'Male', value: 'm'}]},
-      }
+
+  /*   query = {
+      condition: 'and',
+      rules: [
+        { field: 'test', operator: '', value: '' },
+        { field: 'attribute_two', operator: '', value: '' },
+        { field: 'attribute_three', operator: '', value: '' },
+      ],
+    };
+   */
+
+  constructor(private formBuilder: FormBuilder) {
+
   }
- 
- 
-  constructor(private formBuilder: FormBuilder,private cd:ChangeDetectorRef) {
-    
-   }
- 
-  
- 
+
+
+
   ngOnInit() {
-   // console.log('value changed', this.tableMapDrop);
-      /*  console.log('value changed', this.tableMapDrop); */
+
   }
 
-  public mapDataToQueryBuilder() {
+  ngOnChanges(changes: SimpleChanges) {
+    // this.cd.reattach();
+    this.MapDataTest();
+  }
 
-    console.log('table',this.tableMapDrop);
-    this.tableMapDrop.map(items => 
-      {for(let i=0;i<items.columns.length-1;i++){
-        (
-          console.log("Test Items",items.columns[i]),
-          this.config.fields.attribute_name.name =items.columns[i],
-          this.config.fields.attribute_name.type='string',
-          this.config.fields.attribute_name.value=items.columns[i]
-                
-          )   
-      }}
-        
-    );
-    
-      //console.log("Droped Results table details", this.tableMapDrop.map(items => items.columns))
-      console.log("Config", this.config.fields.table_name)   
-     
-    }
+
+
+
+  MapDataTest() {
+    var mapArray = [];
+    var fieldColumn;
+    this.tableMapDrop.map(item => this.entity_table=item.table_name.toString());
+    console.log(this.tables_name);
+    var columnArrayLenght = this.tableMapDrop.map(item => item.columns.length);
+    for (let i = 0; i <= columnArrayLenght[0]; i++) {
+      mapArray.push(this.tableMapDrop.map(item => item.columns[i]))
   
-   ngOnChanges(changes: SimpleChanges){
-    
-     // console.log("change detected");
-   //  alert(changes);   
-    
-     // alert(JSON.stringify(val));             
-  }
-  ngDoCheck()
-  {
-    //this.cd.detectChanges();
-    this.cd.markForCheck();
-    this.mapDataToQueryBuilder();
-  } 
+    }
 
- 
+    fieldColumn = mapArray.map(items => items.toString())
+    //  console.log("pushed", fieldColumn[0]);
+ for(let j=0;j<=fieldColumn.length;j++){
+  
+}
+    this.config =
+    {
+
+      fields: {
+       
+        [fieldColumn[0]]: { name: fieldColumn[0], type: 'string', operators: ['=', '<=', '>'], entity: this.entity_table },
+        [fieldColumn[1]]: { name: fieldColumn[1], type: 'string', operators: ['like', '=', '%'], entity:this.entity_table },
+        [fieldColumn[2]]: { name: fieldColumn[2], type: 'string', operators: ['=', '<=', '>'], entity: this.entity_table },
+        [fieldColumn[3]]: { name: fieldColumn[3], type: 'string', operators: ['=', '<=', '>'], entity: this.entity_table },
+      }
+    }
+
+    this.query = {
+      condition: 'and',
+      rules: [
+        { field: [fieldColumn[0]], operator: '', value: '' },
+        { field: [fieldColumn[1]], operator: '', value: '' },
+        { field: [fieldColumn[2]], operator: '', value: '' },
+        { field: [fieldColumn[3]], operator: '', value: '' },
+      ],
+    };
+
+
+    // this.config.fields[tst].options = [
+    //   {name: 'a', value:'1'}, 
+    //   {name: 'b', value:'2'}, 
+    //   {name: 'c', value:'3'}
+    //  ]
+    // this.refreshField(tst[]);
+    //console.log('value changed', this.tableMapDrop);
+    console.log("test", this.tableMapDrop);
+
+  }
+
+
+
+  private refreshField(field: string): void {
+    // get the current rule
+    const srcRule = this.queryBuilder.data.rules.find((x: Rule) => x.field === field) as Rule;
+
+    if (srcRule) {
+
+      // cache the current rule's selected value from our datasource
+      const value = srcRule ? srcRule.value : undefined;
+
+      // call change field to rebind new options to the UI
+      this.queryBuilder.changeField(field, srcRule);
+
+      // reset the previously selected value to the dropdown because changeField nulls out the value.
+      srcRule.value = value;
+    }
+  }
 }

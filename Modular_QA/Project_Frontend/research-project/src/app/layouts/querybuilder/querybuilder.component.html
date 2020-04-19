@@ -1,12 +1,11 @@
 <div >
 <mat-card  >
-    <query-builder [data]='query' [config]='config' >
-        <ng-container *queryInput="let rule; type: 'date'">
-          <!-- <custom-datepicker [(ngModel)]="rule.value"></custom-datepicker> -->
-        </ng-container>
-      </query-builder> 
-    
-    </mat-card>
+  <query-builder [(ngModel)]='query' [config]='config'>
+    <ng-container *queryInput="let rule;">
+      <custom-datepicker [(ngModel)]="rule.value"></custom-datepicker>
+    </ng-container>
+  </query-builder>
+      </mat-card>
 
     <ng-container><textarea class="output">{{query | json}}</textarea></ng-container>
 

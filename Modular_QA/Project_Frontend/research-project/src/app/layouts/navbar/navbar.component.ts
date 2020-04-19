@@ -2,7 +2,6 @@ import { Component, OnInit,AfterViewInit } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop'
 import { TablesMap } from '../interface/tables.map'
 
-
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -10,7 +9,7 @@ import { TablesMap } from '../interface/tables.map'
 })
 export class NavbarComponent implements OnInit,AfterViewInit {
   public tableMapDrop: TablesMap[] = [];
-  
+
   constructor() { }
 
   ngOnInit() 
@@ -27,11 +26,11 @@ export class NavbarComponent implements OnInit,AfterViewInit {
         return;
       } else {
         this.tableMapDrop=this.tableMapDrop.concat(event.item.data);
-         //console.log('value changed', this.tableMapDrop);
+        
       }
 
     }
-  // console.log('value changed', this.tableMapDrop);
+
 
   }
 
