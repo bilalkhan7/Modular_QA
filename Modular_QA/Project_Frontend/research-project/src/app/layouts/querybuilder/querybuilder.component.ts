@@ -1,4 +1,4 @@
-import { Component, Input, ViewEncapsulation, OnChanges, DoCheck, OnInit, SimpleChanges, ChangeDetectionStrategy, ViewChild } from '@angular/core';
+import { Component, Input, ViewEncapsulation, OnChanges, DoCheck, OnInit, SimpleChanges, ChangeDetectionStrategy, ViewChild, VERSION } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { QueryBuilderClassNames, QueryBuilderConfig, Field, FieldMap, Entity, QueryBuilderComponent, Rule, RuleSet } from 'angular2-query-builder';
 import { QuerybuilderService } from '../services/querybuilder.service';
@@ -18,14 +18,14 @@ import { TableService } from '../services/table.service'
 export class QuerybuilderComponent implements OnChanges, OnInit {
 
   @Input() tableMapDrop: TablesMap[];
-  @ViewChild(QueryBuilderComponent, { static: true }) queryBuilder: QueryBuilderComponent;
+  @ViewChild(QueryBuilderComponent, { static: false }) queryBuilder: QueryBuilderComponent;
   public tables_name: Array<string> = [];
   public currentConfig: QueryBuilderConfig;
   public allowRuleset = true;
   public allowCollapse: boolean;
   public persistValueOnFieldChange = false;
   public queryCtrl: FormControl;
-  public config: QueryBuilderConfig;
+  @Input() config: QueryBuilderConfig;
   public query: { condition: string; rules: { field: any; operator: string; value: string; }[]; };
   public entity_table: string='';
   /* public fieldss:{
@@ -67,10 +67,50 @@ export class QuerybuilderComponent implements OnChanges, OnInit {
 
 
 
-
+ /*  name: string;
+  uiExpression = {};
+  fieldsS = {} */
+ AttributeDummy: any[] = [
+            {
+              "userColumnName": "Attribute 1",
+              "colType": "multiselect",
+              "isListType": "Y",
+              "userColumnOptions": [
+                { name: "Male", value: "m" },
+                { name: "Female", value: "f" }
+              ]
+            },
+            {
+              "userColumnName": "Attribute 2",
+              "colType": "date",
+              "isListType": "N",
+              "userColumnOptions": ""
+            },
+            {
+              "userColumnName": "Attribute 3",
+              "colType": "string",
+              "isListType": "N",
+              "userColumnOptions": ""
+            },
+            {
+              "userColumnName": "Attribute 4",
+              "colType": "number",
+              "isListType": "N",
+              "userColumnOptions": ""
+            }
+          ]
+  userExpression: String = 'Attribute = undefined';
+  
   MapDataTest() {
-    var mapArray = [];
-    var fieldColumn;
+   var mapArray = [];
+   var fieldColumn;
+   let name: string;
+   var uiExpression = {};
+   var fieldsS = {}
+
+   name = `Plunker! v${VERSION.full}`;
+
+
     this.tableMapDrop.map(item => this.entity_table=item.table_name.toString());
     console.log(this.tables_name);
     var columnArrayLenght = this.tableMapDrop.map(item => item.columns.length);
@@ -80,10 +120,8 @@ export class QuerybuilderComponent implements OnChanges, OnInit {
     }
 
     fieldColumn = mapArray.map(items => items.toString())
-    //  console.log("pushed", fieldColumn[0]);
- for(let j=0;j<=fieldColumn.length;j++){
-  
-}
+      
+/* 
     this.config =
     {
 
@@ -94,9 +132,44 @@ export class QuerybuilderComponent implements OnChanges, OnInit {
         [fieldColumn[2]]: { name: fieldColumn[2], type: 'string', operators: ['=', '<=', '>'], entity: this.entity_table },
         [fieldColumn[3]]: { name: fieldColumn[3], type: 'string', operators: ['=', '<=', '>'], entity: this.entity_table },
       }
+    } */
+
+    
+    this.config =
+    {
+
+      fields: {
+              
+      }
     }
 
-    this.query = {
+    for (var i = 0; i < fieldColumn.length-1; i++) {
+       fieldsS[fieldColumn[i]] = {
+        name: fieldColumn[i],
+        type: 'string',
+        options: ''
+      }
+      this.config.fields = fieldsS;
+     // this.detect.markForCheck();
+      console.log('config ', JSON.stringify(this.config))
+      if (fieldColumn.length-1 > 0) {
+        console.log('attributes length > 0');
+        uiExpression = {
+          condition: 'and',
+          rules: [
+            {
+              field: [fieldColumn[i]],
+             /*  operator: this.operators[0] */
+            }
+          ]
+        }
+      }
+    }
+
+   
+      
+
+ /*    this.query = {
       condition: 'and',
       rules: [
         { field: [fieldColumn[0]], operator: '', value: '' },
@@ -105,7 +178,7 @@ export class QuerybuilderComponent implements OnChanges, OnInit {
         { field: [fieldColumn[3]], operator: '', value: '' },
       ],
     };
-
+ */
 
     // this.config.fields[tst].options = [
     //   {name: 'a', value:'1'}, 
@@ -118,6 +191,8 @@ export class QuerybuilderComponent implements OnChanges, OnInit {
 
   }
 
+
+ 
 
 
   private refreshField(field: string): void {
