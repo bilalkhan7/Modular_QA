@@ -20,6 +20,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatRadioModule } from '@angular/material/radio';
+import { BarChartComponent } from './dashboard/charts/bar-chart/bar-chart.component';
 
 
 
@@ -46,6 +47,7 @@ import { MatRadioModule } from '@angular/material/radio';
   ],
   declarations: [
     DashboardComponent,
+    BarChartComponent,
 
 
 
