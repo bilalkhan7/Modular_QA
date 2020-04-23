@@ -1,10 +1,17 @@
 <div >
-<mat-card  >
-  <query-builder [(ngModel)]='uiExpression' [config]='config'>
-    <ng-container *queryInput="let rule;">
-      <custom-datepicker [(ngModel)]="rule.value"></custom-datepicker>
+<mat-card >
+  <query-builder [(ngModel)]='uiExpression' [config]='config'  (onChangeCallback)="onchange()">
+    <ng-container *queryOperator="let rule; let operators=operators ;let fields=fields">
+        <mat-form-field>
+      
+        <mat-select [(ngModel)]="rule.operator">
+          <mat-option *ngFor="let value of operators" [value]="value">{{value}}</mat-option>
+        </mat-select>
+      </mat-form-field>
     </ng-container>
+    
   </query-builder>
+ 
       </mat-card>
 
     <ng-container><textarea class="output">{{uiExpression | json}}</textarea></ng-container>

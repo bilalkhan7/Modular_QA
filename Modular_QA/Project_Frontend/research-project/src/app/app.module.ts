@@ -26,7 +26,6 @@ import {MatInputModule} from '@angular/material/input';
 import {MatCardModule } from '@angular/material/card';
 import {MatRadioModule } from '@angular/material/radio';
 import {MatDatepickerModule} from '@angular/material/datepicker';
-import { TestComponent } from './layouts/test/test.component';
 
 @NgModule({
   imports: [
@@ -59,8 +58,7 @@ import { TestComponent } from './layouts/test/test.component';
     SidebarComponent,
     NavbarComponent,
     QuerybuilderComponent,
-    TestComponent
-
+  
   ], exports: [
     MatButtonModule,
     MatIconModule,

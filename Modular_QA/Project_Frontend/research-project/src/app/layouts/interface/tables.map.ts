@@ -1,5 +1,6 @@
 export interface TablesMap {
   table_name: string;
-  columns?: (string)[] | null;
+  field?: (string)[] | null;
+  data_type ?: string[] | null;
 }
 

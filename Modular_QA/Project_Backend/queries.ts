@@ -10,11 +10,11 @@ const pool = new Pool({
 })  
 
 const getTable_attributes = (req, res, next) => {
-   pool.query(`SELECT t.table_name,array_agg(c.column_name::text) as columns 
-    FROM information_schema.tables t
-    inner join information_schema.columns c on t.table_name = c.table_name 
-    WHERE t.table_schema = 'public' AND t.table_type= 'BASE TABLE' AND c.table_schema = 'public'
-    GROUP BY t.table_name;`).then 
+   pool.query(`SELECT t.table_name,array_agg(c.column_name::text) as field, array_agg(c.data_type::text) as data_type 
+   FROM information_schema.tables t
+  inner join information_schema.columns c on t.table_name = c.table_name 
+  WHERE t.table_schema = 'public' AND t.table_type= 'BASE TABLE' AND c.table_schema = 'public'
+   GROUP BY t.table_name;`).then 
     (
       function (data){
         res.status(200);

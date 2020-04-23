@@ -26,7 +26,7 @@ export class NavbarComponent implements OnInit,AfterViewInit {
         return;
       } else {
         this.tableMapDrop=this.tableMapDrop.concat(event.item.data);
-        
+      //  console.log('tables',this.tableMapDrop);
       }
 
     }

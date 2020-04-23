@@ -20,6 +20,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatRadioModule } from '@angular/material/radio';
+import { TestComponent } from './test/test.component';
 
 
 @NgModule({
@@ -45,6 +46,7 @@ import { MatRadioModule } from '@angular/material/radio';
   ],
   declarations: [
     DashboardComponent,
+    TestComponent,
     
 
 

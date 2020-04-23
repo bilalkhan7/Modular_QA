@@ -28,27 +28,11 @@ export class QuerybuilderComponent implements OnChanges, OnInit {
   @Input() config: QueryBuilderConfig;
   public query: { condition: string; rules: { field: any; operator: string; value: string; }[]; };
   public entity_table: string='';
-  /* public fieldss:{
-    [key: string]:
-    {
-      name: string;value?: string;type: string;nullable?: boolean;options?: {name: string;value: any;};Option: any[];
-    operators?: string[];
-    defaultValue?: any;
-    defaultOperator?: any;
-    entity?: string;
-    validator?: (rule: Rule, parent: RuleSet) => any | null;
-   }; Field: any;}; }; */
-
-
-  /*   query = {
-      condition: 'and',
-      rules: [
-        { field: 'test', operator: '', value: '' },
-        { field: 'attribute_two', operator: '', value: '' },
-        { field: 'attribute_three', operator: '', value: '' },
-      ],
-    };
-   */
+   private characterType:string="character varying";
+   private NumericType:string="numeric";
+   private IntergerType:string="integer";
+   private DateType:string="date";
+   private TimeType:string="timestamp without time zone";
 
   constructor(private formBuilder: FormBuilder) {
 
@@ -62,79 +46,34 @@ export class QuerybuilderComponent implements OnChanges, OnInit {
 
   ngOnChanges(changes: SimpleChanges) {
     // this.cd.reattach();
-    this.MapDataTest();
+    this.MapData();
   }
 
-
-
- /*  name: string;
-  uiExpression = {};
-  fieldsS = {} */
- AttributeDummy: any[] = [
-            {
-              "userColumnName": "Attribute 1",
-              "colType": "multiselect",
-              "isListType": "Y",
-              "userColumnOptions": [
-                { name: "Male", value: "m" },
-                { name: "Female", value: "f" }
-              ]
-            },
-            {
-              "userColumnName": "Attribute 2",
-              "colType": "date",
-              "isListType": "N",
-              "userColumnOptions": ""
-            },
-            {
-              "userColumnName": "Attribute 3",
-              "colType": "string",
-              "isListType": "N",
-              "userColumnOptions": ""
-            },
-            {
-              "userColumnName": "Attribute 4",
-              "colType": "number",
-              "isListType": "N",
-              "userColumnOptions": ""
-            }
-          ]
   userExpression: String = 'Attribute = undefined';
   
-  MapDataTest() {
+  MapData() {
    var mapArray = [];
+   var mapDataTypes=[];
    var fieldColumn;
+   var fieldDataType;
    let name: string;
    var uiExpression = {};
+   var queryPost={};
    var fieldsS = {}
-
    name = `Plunker! v${VERSION.full}`;
-
-
     this.tableMapDrop.map(item => this.entity_table=item.table_name.toString());
-    console.log(this.tables_name);
-    var columnArrayLenght = this.tableMapDrop.map(item => item.columns.length);
+  //  console.log('droptable'+this.tableMapDrop);
+    var columnArrayLenght = this.tableMapDrop.map(item => item.field.length);
+   // console.log('droptable'+columnArrayLenght);
     for (let i = 0; i <= columnArrayLenght[0]; i++) {
-      mapArray.push(this.tableMapDrop.map(item => item.columns[i]))
+      mapArray.push(this.tableMapDrop.map(item => item.field[i]))
+      mapDataTypes.push(this.tableMapDrop.map(item => item.data_type[i]))
   
     }
 
     fieldColumn = mapArray.map(items => items.toString())
-      
-/* 
-    this.config =
-    {
-
-      fields: {
-       
-        [fieldColumn[0]]: { name: fieldColumn[0], type: 'string', operators: ['=', '<=', '>'], entity: this.entity_table },
-        [fieldColumn[1]]: { name: fieldColumn[1], type: 'string', operators: ['like', '=', '%'], entity:this.entity_table },
-        [fieldColumn[2]]: { name: fieldColumn[2], type: 'string', operators: ['=', '<=', '>'], entity: this.entity_table },
-        [fieldColumn[3]]: { name: fieldColumn[3], type: 'string', operators: ['=', '<=', '>'], entity: this.entity_table },
-      }
-    } */
-
-    
+    fieldDataType = mapDataTypes.map(items => items.toString())  
+   // console.log("field"+fieldDataType);
     this.config =
     {
 
@@ -144,54 +83,107 @@ export class QuerybuilderComponent implements OnChanges, OnInit {
     }
 
     for (var i = 0; i < fieldColumn.length-1; i++) {
+
        fieldsS[fieldColumn[i]] = {
         name: fieldColumn[i],
-        type: 'string',
+        type: this.MapDataTypes(fieldDataType[i]),
+        operator:this.MapOperators(fieldDataType[i]),
+        entity:'currency',
         options: ''
       }
       this.config.fields = fieldsS;
+     
      // this.detect.markForCheck();
       console.log('config ', JSON.stringify(this.config))
       if (fieldColumn.length-1 > 0) {
-        console.log('attributes length > 0');
-        uiExpression = {
+       // console.log('attributes length > 0');
+
+       uiExpression = {
           condition: 'and',
           rules: [
             {
-              field: [fieldColumn[i]],
-             /*  operator: this.operators[0] */
+              field: this.config.fields[fieldColumn[i]],
             }
           ]
         }
       }
     }
-
-   
       
-
- /*    this.query = {
-      condition: 'and',
-      rules: [
-        { field: [fieldColumn[0]], operator: '', value: '' },
-        { field: [fieldColumn[1]], operator: '', value: '' },
-        { field: [fieldColumn[2]], operator: '', value: '' },
-        { field: [fieldColumn[3]], operator: '', value: '' },
-      ],
-    };
- */
-
-    // this.config.fields[tst].options = [
-    //   {name: 'a', value:'1'}, 
-    //   {name: 'b', value:'2'}, 
-    //   {name: 'c', value:'3'}
-    //  ]
-    // this.refreshField(tst[]);
-    //console.log('value changed', this.tableMapDrop);
-    console.log("test", this.tableMapDrop);
+    
+    console.log(console.log('uiExpression ', JSON.stringify(this.userExpression)));
 
   }
 
 
+MapDataTypes(type: String)
+{
+var datatype='';
+//console.log('datatype',type);
+
+
+if(type ===this.characterType )
+{
+  datatype = 'string';
+ 
+}
+
+ else if(type === this.NumericType || type===this.IntergerType)
+ {
+   datatype ='number'
+  
+ }
+ else if(type === this.DateType)
+{
+  //console.log('type',type);
+  datatype='date'
+ ;
+}
+else if(type===this.TimeType)
+{
+datatype='date'
+}
+else
+{
+  datatype='string';
+  
+}
+
+return datatype;
+}
+
+MapOperators(type:String)
+{
+  //type='';
+var operators=[];
+if(type ===this.characterType )
+{
+  operators =  ['=', 'like', '%'];
+ }
+
+ else if(type === this.NumericType || type===this.IntergerType)
+ {
+  operators =  ['=', '<', '>'];
+  
+ }
+ else if(type === this.DateType)
+{
+  //console.log('type',type);
+  operators =  ['=', 'between'];
+ ;
+}
+else if(type===this.TimeType)
+{
+  operators =  ['=', 'like', '%'];
+}
+else
+{
+  operators =  ['=', '<', 'between'];
+  
+}
+
+return operators;
+
+}
  
 
 
