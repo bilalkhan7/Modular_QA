@@ -15,6 +15,12 @@ app.get('/table_attributes', db.getTable_attributes);
 
 app.get('/foreign', db.getForeign);
 
+app.post('/get_data', db.getdata);
+
+// app.get('/getdata', db.getdata);
+
+// app.get('/test_data', db.gettest_data);
+
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");

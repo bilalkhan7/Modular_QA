@@ -1,6 +1,6 @@
 import { Component, Input, ViewEncapsulation, OnChanges, DoCheck, OnInit, SimpleChanges, ChangeDetectionStrategy, ViewChild, VERSION } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
-import { QueryBuilderClassNames, QueryBuilderConfig, Field, FieldMap, Entity, QueryBuilderComponent, Rule, RuleSet } from 'angular2-query-builder';
+import { QueryBuilderClassNames, QueryBuilderConfig, Field, FieldMap, Entity, QueryBuilderComponent, Rule, RuleSet, QueryInputDirective } from 'angular2-query-builder';
 import { QuerybuilderService } from '../services/querybuilder.service';
 import { TablesMap } from '../interface/tables.map';
 //import { config } from 'rxjs';
@@ -16,6 +16,7 @@ import { TableService } from '../services/table.service'
 
 })
 export class QuerybuilderComponent implements OnChanges, OnInit {
+  [x: string]: any;
 
   @Input() tableMapDrop: TablesMap[];
   @ViewChild(QueryBuilderComponent, { static: false }) queryBuilder: QueryBuilderComponent;
@@ -203,4 +204,11 @@ return operators;
       srcRule.value = value;
     }
   }
+
+  findQueryInput(type: string): QueryInputDirective {
+    const templates = this.parentInputTemplates || this.inputTemplates;
+    return templates.find((item) => item.queryInputType === type);
+  }
+  
+  
 }
