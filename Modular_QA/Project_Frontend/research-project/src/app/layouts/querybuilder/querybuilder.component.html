@@ -1,21 +1,25 @@
-
-<div >
-<mat-card >
-  <query-builder [(ngModel)]='uiExpression' [config]='config'  (onChangeCallback)="onchange()">
-    <ng-container *queryOperator="let rule; let operators=operators ;let fields=fields">
-        <mat-form-field>
+<div>
+  <!-- <form [formGroup]="dynamicForm" > -->
+  <mat-card *ngFor="let config of currentConfig">
+    <query-builder   [(ngModel)]='$uiExpression' [config]='config' (onChangeCallback)="onchange()" [operatorMap]='myOperatorMap'>
       
-        <mat-select [(ngModel)]="rule.operator">
-          <mat-option *ngFor="let value of operators" [value]="value">{{value}}</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </ng-container>
-    
-  </query-builder>
- 
-      </mat-card>
+      <ng-container *queryInput="let rule; let field=field; let options=options; type: 'category'">
+        <mat-form-field>
+          <mat-select [(ngModel)]="rule.value" [placeholder]="field.name">
+            <mat-option *ngFor="let opt of options" [value]="opt.value">
+              {{ opt.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </ng-container>
+    </query-builder>
 
-    <ng-container><textarea class="output">{{uiExpression | json}}</textarea></ng-container>
+  </mat-card>
+<!-- </form> -->
+  <!--  <ng-container><textarea class="output">{{$uiExpression | json}}</textarea></ng-container>
+   -->
+  <button type="submit" class="btn pull-right" style="background-color: #fd9b16;margin-top: 30px;" 
+    (click)="passData($uiExpression)">Submit</button>
+  <div class="clearfix"></div>
 
-  </div> 
-   
+</div>
