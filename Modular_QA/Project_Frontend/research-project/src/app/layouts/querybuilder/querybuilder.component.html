@@ -3,15 +3,7 @@
   <mat-card *ngFor="let config of currentConfig">
     <query-builder   [(ngModel)]='$uiExpression' [config]='config' (onChangeCallback)="onchange()" [operatorMap]='myOperatorMap'>
       
-      <ng-container *queryInput="let rule; let field=field; let options=options; type: 'category'">
-        <mat-form-field>
-          <mat-select [(ngModel)]="rule.value" [placeholder]="field.name">
-            <mat-option *ngFor="let opt of options" [value]="opt.value">
-              {{ opt.name }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </ng-container>
+
     </query-builder>
 
   </mat-card>
