@@ -6,18 +6,16 @@ require('dotenv').config();
 const port = 3000;
 var request = require('request');
 
-//app.set('view engine', 'ejs');
-
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 app.get('/table_attributes', db.getTable_attributes);
 
-app.get('/foreign', db.getForeign);
+app.get('/table_with_attributes', db.getTable_with_attributes);
 
-app.post('/get_data', db.getdata);
+app.get('/get_query', db.getquery);
 
-// app.get('/getdata', db.getdata);
+// app.get('/getquery', db.getquery);
 
 // app.get('/test_data', db.gettest_data);
 
@@ -26,7 +24,6 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
-
 
 app.use((error, req, res, next)=>{
   res.status(error.status || 500);
