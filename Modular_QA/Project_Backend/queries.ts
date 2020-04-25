@@ -26,7 +26,7 @@ const getTable_attributes = (req, res, next) => {
   FROM information_schema.tables t
  inner join information_schema.columns c on t.table_name = c.table_name 
  WHERE t.table_schema = 'public' AND t.table_type= 'BASE TABLE' AND c.table_schema = 'public'
-  GROUP BY t.table_name;`).then
+  GROUP BY t.table_name;`).then 
     (
       function (data) {
         res.status(200);

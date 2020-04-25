@@ -57,8 +57,8 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
     AdminLayoutComponent,
     SidebarComponent,
     NavbarComponent,
-    QuerybuilderComponent
-
+    QuerybuilderComponent,
+  
   ], exports: [
     MatButtonModule,
     MatIconModule,

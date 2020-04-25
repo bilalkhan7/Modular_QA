@@ -53,7 +53,7 @@
       </mat-form-field>
     </div>
 
-     <li routerLinkActive="active" *ngFor="let menuItem of tableMap | slice:0:5; " cdkDrag [cdkDragData]="menuItem">
+     <li routerLinkActive="active" *ngFor="let menuItem of tableMap  " cdkDrag [cdkDragData]="menuItem">
       <a class="nav-link" [routerLink]="[menuItem.table_name]">
         <p>{{menuItem.table_name | titlecase}}</p>
       </a>

@@ -8,7 +8,7 @@
 
             <div class="card-body ">
                 <div class="row">
-                    <div class="col" style="height: 200px;">
+                    <div class="col">
                         <form>
                             <div class="row">
                                 <div class="col-md-12">
@@ -18,29 +18,12 @@
                                             <div class="navbar-wrapper">
 
                                                 <div id="dropListTable" class="rounded"
-                                                    style="height: 130px; border: 1px solid #fd9b16" cdkDropList
+                                                    style=" border: 1px solid #fd9b16" cdkDropList
                                                     [cdkDropListConnectedTo]="['dragListTable']"
                                                     (cdkDropListDropped)="drop($event)"
                                                     cdkDropListOrientation="horizontal">
 
-
-
-                                                    <button type="button" class="btn btn-warning"
-                                                        style="text-align: left; background-color: #fd9b16;"
-                                                        *ngFor="let menuItem of tableMapDrop" cdkDrag>
-                                                        {{menuItem.table_name | titlecase}}
-                                                        <i class="material-icons" (click)="removeFromList(menuItem)">close</i>
-                                                        <mat-select [formControl]="bankMultiCtrl" placeholder="Columns"
-                                                            [multiple]="true" #multiSelect>
-                                                            <mat-option *ngFor="let submenu of menuItem.columns "
-                                                                [value]="menuItem">
-                                                                <a href="#">{{submenu | titlecase}}</a>
-                                                            </mat-option>
-                                                        </mat-select>
-
-                                                        
-                                                    </button>
-
+                                                    <app-querybuilder [tableMapDrop]="tableMapDrop"></app-querybuilder>
 
 
                                                 </div>
@@ -57,6 +40,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </div>
