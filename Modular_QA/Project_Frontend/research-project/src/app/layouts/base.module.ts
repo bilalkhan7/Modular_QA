@@ -21,6 +21,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatRadioModule } from '@angular/material/radio';
 import { TestComponent } from './test/test.component';
+import { GraphsComponent } from './graphs/graphs.component';
 
 
 @NgModule({
@@ -42,11 +43,13 @@ import { TestComponent } from './test/test.component';
     MatNativeDateModule,
     MatDatepickerModule,
     MatRadioModule,
+    MatSelectModule,
    /*  QueryBuilderModule, */
   ],
   declarations: [
     DashboardComponent,
     TestComponent,
+    GraphsComponent,
     
 
 

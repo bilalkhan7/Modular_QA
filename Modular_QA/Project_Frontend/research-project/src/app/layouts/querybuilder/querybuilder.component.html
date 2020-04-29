@@ -1,17 +1,16 @@
 <div>
-  <!-- <form [formGroup]="dynamicForm" > -->
-  <mat-card *ngFor="let config of currentConfig">
-    <query-builder   [(ngModel)]='$uiExpression' [config]='config' (onChangeCallback)="onchange()" [operatorMap]='myOperatorMap'>
+  
+    <div *ngFor="let config of currentConfig; index as i">
       
-
+    <mat-card>
+       <query-builder [(ngModel)]='queryArray[i]' [config]='config' (onChangeCallback)="onchange()" [operatorMap]='myOperatorMap' >
     </query-builder>
 
   </mat-card>
-<!-- </form> -->
-  <!--  <ng-container><textarea class="output">{{$uiExpression | json}}</textarea></ng-container>
-   -->
+  </div>
+
   <button type="submit" class="btn pull-right" style="background-color: #fd9b16;margin-top: 30px;" 
-    (click)="passData($uiExpression)">Submit</button>
+    (click)="passData(queryArray)">Submit</button>
   <div class="clearfix"></div>
 
 </div>
