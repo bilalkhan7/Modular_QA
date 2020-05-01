@@ -1,9 +1,13 @@
+<<<<<<< HEAD
 import { Component, Input, ViewEncapsulation, OnChanges, DoCheck, OnInit, SimpleChanges, ChangeDetectionStrategy, ViewChild, VERSION } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { QueryBuilderClassNames, QueryBuilderConfig, Field, FieldMap, Entity, QueryBuilderComponent, Rule, RuleSet, QueryInputDirective } from 'angular2-query-builder';
+=======
+import { Component, Input, OnChanges, OnInit, SimpleChanges, ChangeDetectionStrategy, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { QueryBuilderConfig, FieldMap, QueryBuilderComponent } from 'angular2-query-builder';
+>>>>>>> rizwan_code
 import { TablesMap } from '../interface/tables.map';
-//import { config } from 'rxjs';
-import { TableService } from '../services/table.service'
 
 
 @Component({
@@ -11,21 +15,23 @@ import { TableService } from '../services/table.service'
   templateUrl: './querybuilder.component.html',
   styleUrls: ['./querybuilder.component.css'],
   changeDetection: ChangeDetectionStrategy.Default,
-  providers: [TableService]
 
 
 })
 export class QuerybuilderComponent implements OnChanges, OnInit {
 
   @Input() tableMapDrop: TablesMap[];
+
   @ViewChild(QueryBuilderComponent, { static: false }) queryBuilder: QueryBuilderComponent;
-  public tables_name: Array<string> = [];
-  public currentConfig: any = [];
+  //  public tables_name: Array<string> = [];
+  public currentConfig: QueryBuilderConfig[] = [];
+  public queryArray = [];
+  public tableNameArray: string[] = [];
   public allowRuleset = true;
   public allowCollapse: boolean;
   public persistValueOnFieldChange = true;
   public queryCtrl: FormControl;
-
+  public $table_name:string;
   @Input() config: QueryBuilderConfig;
   public query: { condition: string; rules: { field: any; operator: string; value: string; }[]; };
   public entity_table: string = '';
@@ -34,72 +40,17 @@ export class QuerybuilderComponent implements OnChanges, OnInit {
   private IntergerType: string = "integer";
   private DateType: string = "date";
   private TimeType: string = "timestamp without time zone";
+
   myOperatorMap = {
-    string: [
-      'equal',
-      'not_equal',
-      'begins_with',
-      'not_begins_with',
-      'contains',
-      'not_contains',
-      'ends_with',
-      'not_ends_with'
-    ],
-    number: [
-      'equal',
-      'not_equal',
-      'greater',
-      'greater_or_equal',
-      'between',
-      'less',
-      'less_or_equal',
-      'begins_with',
-      'not_begins_with',
-      'contains',
-      'not_contains',
-      'ends_with',
-      'not_ends_with'
-    ],
-    time: [
-      'equal',
-      'not_equal',
-      'greater',
-      'greater_or_equal',
-      'between',
-      'less',
-      'less_or_equal',
-      'begins_with',
-      'not_begins_with',
-      'contains',
-      'not_contains',
-      'ends_with',
-      'not_ends_with'
-    ],
-    date: [
-      'equal',
-      'not_equal',
-      'greater',
-      'greater_or_equal',
-      'between',
-      'less',
-      'less_or_equal'
-    ],
-    category: [
-      'equal',
-      'not_equal',
-      'in',
-      'not_in'
-    ],
-    boolean: [
-      'equal',
-      'not_equal'
-    ],
-    multiselect: [
-      'in',
-      'not_in'
-    ]
+    string: ['=', '!=', 'contains', 'like','is null'],
+    number: ['=', '!=', '>', '>=', '<', '<='],
+    time: ['=', '!=', '>', '>=', '<', '<='],
+    date: ['=', '!=', '>', '>=', '<', '<='],
+    category: ['=', '!=', 'in', 'not in',],
+    boolean: ['='],
+
   };
-  constructor(private formBuilder: FormBuilder,private webTableService: TableService) {
+  constructor() {
 
   }
 
@@ -110,127 +61,164 @@ export class QuerybuilderComponent implements OnChanges, OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    // this.cd.reattach();
-    this.MapData();
-  }
+
+    this.dropData();
+     }
 
   userExpression: String = 'Attribute = undefined';
 
-  MapData() {
-    var mapArray = [];
-    var mapDataTypes = [];
-    var fieldColumn;
-    var fieldDataType;
-    let name: string;
-    let $uiExpression = {};
-
-    // var uiExpression = {};
-    var queryPost = {};
-    var fieldsS = {};
-    name = `Plunker! v${VERSION.full}`;
+  dropData() {
 
 
-
-    this.tableMapDrop.map(item => this.entity_table = item.table_name.toString());
-    var columnArrayLenght = this.tableMapDrop.map(item => item.field.length);
-
-    //get attributes and map dataTypes
-    for (let i = 0; i <= columnArrayLenght[0]; i++) {
-      mapArray.push(this.tableMapDrop.map(item => item.field[i]))
-      mapDataTypes.push(this.tableMapDrop.map(item => item.data_type[i]))
-
+    if (this.tableMapDrop.length > 0) {
+      this.tableNameArray=[];
+      for (let i = 0; i < this.tableMapDrop.length; i++) {
+        this.currentConfig[i] = (this.configData(this.tableMapDrop[i]));
+       
+      }
     }
-
-    fieldColumn = mapArray.map(items => items.toString())
-    fieldDataType = mapDataTypes.map(items => items.toString())
-
-
-    for (var i = 0; i < fieldColumn.length - 1; i++) {
-
-      this.config =
-      {
-        
-
-        fields: {
-
-        }
-      }
-
-      fieldsS[fieldColumn[i]] = {
-        name: fieldColumn[i],
-        type: this.MapDataTypes(fieldDataType[i]),
-        //operator: this.MapOperators(fieldDataType[i]),
-        entity: this.entity_table,
-        options: ''
-      }
-      this.config.fields = fieldsS;
-     // this.config.allowEmptyRulesets = true;
-      // this.detect.markForCheck();
-      console.log('config ', JSON.stringify(this.config))
-      if (fieldColumn.length - 1 > 0) {
-        // console.log('attributes length > 0');
-
-        $uiExpression = {
-            condition: 'and',
-            rules: [
-              {
-                field: this.config.fields[fieldColumn[i]],
-              
-              },
-              
-            ]
-          
-        }
-
-      }
-
-    }
-
-    this.currentConfig[0] = this.config;
-
-    //  console.log('current Config'+this.currentConfig[i])
-    // console.log(console.log('uiExpression ', JSON.stringify($uiExpression)));
 
   }
 
+  setqueryObj(fields: FieldMap) {
+    var arrayFields = Object.keys(fields);
+    this.$table_name='';
+    this.$table_name=arrayFields[0];
+    console.log(this.$table_name);
+   /*  var ruleSetArray = [];
+    var query = {
+      condition: 'and',
+      rules: []
+    }
+    if (arrayFields.length > 0) {
+      for (let i = 0; i < arrayFields.length; i++) {
+        if (arrayFields.length - 1 > 0) {
+          ruleSetArray[i] = {
+            field: arrayFields[i],
+          }
+        }
+      }
 
-  passData($uiExpression) {
+      query.rules = ruleSetArray;
+      return query;
+
+    } */
+  }
+
+  configData(objeTable: TablesMap): QueryBuilderConfig {
+    var columnArray = [];
+    var dataTypesArray = [];
+    var table_Name = '';
+    table_Name = objeTable.table_name;
+    var columnArrayLenght = objeTable.field.length;
+    for (let i = 0; i <= columnArrayLenght - 1; i++) {
+      columnArray.push(objeTable.field[i])
+      dataTypesArray.push(objeTable.data_type[i])
+    }
+    columnArray.unshift('*');
+    dataTypesArray.unshift('null');
+    console.log('column Array',columnArray);
+    console.log('dataType')
+    return this.configQueryBuilder(table_Name, columnArray, dataTypesArray);
+  }
+
+  configQueryBuilder(table_Name: string, columnArray: string[], dataTypesArray: string[]): QueryBuilderConfig {
+    var fieldColumn;
+    var fieldDataType;
+    fieldColumn = columnArray.map(items => items.toString());
+    fieldDataType = dataTypesArray.map(items => items.toString());
+   
+    return this.mapQueryConfig(table_Name, fieldColumn, fieldDataType);
+
+  }
+
+  mapQueryConfig(table_name: string, fieldColumn, fieldDataType): QueryBuilderConfig {
+
+    var fieldsS = {};
+    var config =
+    {
+      fields: {
+
+      }
+    }
+
+    for (var i = 0; i < fieldColumn.length; i++) {
+
+      if(fieldColumn[i]==='*')
+      {
+        fieldsS[fieldColumn[i]] =
+        {
+          name: [fieldColumn[i]],
+          entity: table_name,
+          type:'string',
+          operator:'is null',          
+          
+        }  
+      }
+      else{
+      fieldsS[fieldColumn[i]] =
+      {
+        name: [fieldColumn[i]],
+        type: [this.MapDataTypes(fieldDataType[i])],
+        entity: table_name,
+        defaultValue: null
+      }
+    }
+    }
+    config.fields = fieldsS;
+    return config;
+  }
+
+
+
+
+
+  passData(queryArray) {
+
     let querySend = [];
-
-    let objeTable = {[this.entity_table]: $uiExpression };
+    for(let i=0;i<queryArray.length;i++)
+    {
+      let objeTable={[this.tableMapDrop[i].table_name]:queryArray[i]};
+      querySend[i]=objeTable;    
+    }
+    console.log("tableMap"+JSON.stringify(querySend));
+  //  console.log("queryArray"+queryArray);
+    /* let querySend = [];
+  
+    let objeTable = { [this.entity_table]: $uiExpression };
     querySend[0] = objeTable;
-
+  
     this.webTableService.sendPostRequest(querySend).subscribe(
       res => {
         console.log(res);
       }
-);
-    console.log('uiExpression Submite this value', JSON.stringify(querySend));
-
+    );
+    console.log(console.log('uiExpression ', JSON.stringify(querySend)));
+   */
   }
 
+  
 
-  MapDataTypes(type: String) {
+
+  MapDataTypes(type:string) {
     var datatype = '';
-    //console.log('datatype',type);
-
-
+    
     if (type === this.characterType) {
       datatype = 'string';
 
     }
 
     else if (type === this.NumericType || type === this.IntergerType) {
-      datatype = 'number'
+      datatype = 'number';
 
     }
     else if (type === this.DateType) {
-      //console.log('type',type);
-      datatype = 'date'
+
+      datatype = 'date';
         ;
     }
     else if (type === this.TimeType) {
-      datatype = 'date'
+      datatype = 'date';
     }
     else {
       datatype = 'string';
@@ -242,50 +230,37 @@ export class QuerybuilderComponent implements OnChanges, OnInit {
 
 
 
-
-
-  private refreshField(field: string): void {
-    // get the current rule
-    const srcRule = this.queryBuilder.data.rules.find((x: Rule) => x.field === field) as Rule;
-
-    if (srcRule) {
-
-      // cache the current rule's selected value from our datasource
-      const value = srcRule ? srcRule.value : undefined;
-
-      // call change field to rebind new options to the UI
-      this.queryBuilder.changeField(field, srcRule);
-
-      // reset the previously selected value to the dropdown because changeField nulls out the value.
-      srcRule.value = value;
-    }
-  }
+  removeFromList(addedItem) {
+    const index = this.tableMapDrop.indexOf(addedItem);
+    this.tableMapDrop.splice(index, 1);
+   }
 
 
 
-/*   setExpressionParam(): FieldMap{
-  
-    let objList: Field[] = []; 
-      this.Map.parameters.forEach(param => { 
-            let x = { name: param.parameterName, type: 'string' }
-            if (objList.indexOf(x) === -1) {
-              objList.push(x); 
-            }  
-      }); 
 
-    const arrayToObject = (array) =>
-        array.reduce((obj, item) => {
-          obj[item.name] = item
-          return obj
-        }, {})
+  /*   setExpressionParam(): FieldMap{
     
-    const fieldMap:FieldMap = arrayToObject(objList)
-
-    console.log(objList);
-    console.log(fieldMap); 
-    return fieldMap; ;
+      let objList: Field[] = []; 
+        this.Map.parameters.forEach(param => { 
+              let x = { name: param.parameterName, type: 'string' }
+              if (objList.indexOf(x) === -1) {
+                objList.push(x); 
+              }  
+        }); 
   
-}  */
+      const arrayToObject = (array) =>
+          array.reduce((obj, item) => {
+            obj[item.name] = item
+            return obj
+          }, {})
+      
+      const fieldMap:FieldMap = arrayToObject(objList)
+  
+      console.log(objList);
+      console.log(fieldMap); 
+      return fieldMap; ;
+    
+  }  */
 
 
 }

@@ -5,7 +5,8 @@ import { TablesMap } from '../interface/tables.map'
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  styleUrls: ['./navbar.component.css'],
+  
 })
 export class NavbarComponent implements OnInit,AfterViewInit {
   public tableMapDrop: TablesMap[] = [];
@@ -26,6 +27,7 @@ export class NavbarComponent implements OnInit,AfterViewInit {
         return;
       } else {
         this.tableMapDrop=this.tableMapDrop.concat(event.item.data);
+        //this.tableMapDrop.push(event.item.data);
       //  console.log('tables',this.tableMapDrop);
       }
 
