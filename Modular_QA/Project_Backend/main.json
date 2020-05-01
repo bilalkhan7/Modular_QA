@@ -1,0 +1,19 @@
+[{
+      "expense_fact":{
+      "condition": "and",
+      "rules": [
+        {
+          "field": "account_id",
+          "operator": ">",
+          "value": "4100"  
+        },
+        {
+          "condition": "or",
+          "rules": []
+    }]
+  }
+}
+]    
+   
+    
+    

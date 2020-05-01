@@ -1,7 +1,6 @@
 import { Component, Input, ViewEncapsulation, OnChanges, DoCheck, OnInit, SimpleChanges, ChangeDetectionStrategy, ViewChild, VERSION } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { QueryBuilderClassNames, QueryBuilderConfig, Field, FieldMap, Entity, QueryBuilderComponent, Rule, RuleSet, QueryInputDirective } from 'angular2-query-builder';
-import { QuerybuilderService } from '../services/querybuilder.service';
 import { TablesMap } from '../interface/tables.map';
 //import { config } from 'rxjs';
 import { TableService } from '../services/table.service'
@@ -206,7 +205,7 @@ export class QuerybuilderComponent implements OnChanges, OnInit {
         console.log(res);
       }
 );
-    console.log(console.log('uiExpression ', JSON.stringify(querySend)));
+    console.log('uiExpression Submite this value', JSON.stringify(querySend));
 
   }
 

@@ -13,11 +13,7 @@ app.get('/table_attributes', db.getTable_attributes);
 
 app.get('/table_with_attributes', db.getTable_with_attributes);
 
-app.get('/get_query', db.getquery);
-
-// app.get('/getquery', db.getquery);
-
-// app.get('/test_data', db.gettest_data);
+app.get('/get_data', db.post_data);
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
