@@ -1,10 +1,11 @@
 <div>
   
-    <div *ngFor="let config of currentConfig; index as i">
-      
-    <mat-card>
+    <div *ngFor="let config of currentConfig; index as i" >
+       <p>{{this.tableMapDrop[i].table_name}}</p>
+      <mat-card>
        <query-builder [(ngModel)]='queryArray[i]' [config]='config' (onChangeCallback)="onchange()" [operatorMap]='myOperatorMap' >
-    </query-builder>
+   
+      </query-builder>
 
   </mat-card>
   </div>
