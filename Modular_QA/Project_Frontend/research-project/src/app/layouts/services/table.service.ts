@@ -21,6 +21,6 @@ export class TableService {
 
  
   sendPostRequest(data: any): Observable<any> {
-    return this.http.post<any>(this.postDataUrl, data);
+    return this.http.get<any>(this.postDataUrl, data);
 }
 }

@@ -1,13 +1,8 @@
-<<<<<<< HEAD
-import { Component, Input, ViewEncapsulation, OnChanges, DoCheck, OnInit, SimpleChanges, ChangeDetectionStrategy, ViewChild, VERSION } from '@angular/core';
-import { FormBuilder, FormControl } from '@angular/forms';
-import { QueryBuilderClassNames, QueryBuilderConfig, Field, FieldMap, Entity, QueryBuilderComponent, Rule, RuleSet, QueryInputDirective } from 'angular2-query-builder';
-=======
 import { Component, Input, OnChanges, OnInit, SimpleChanges, ChangeDetectionStrategy, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormBuilder, FormArray, FormGroup } from '@angular/forms';
 import { QueryBuilderConfig, FieldMap, QueryBuilderComponent } from 'angular2-query-builder';
->>>>>>> rizwan_code
 import { TablesMap } from '../interface/tables.map';
+import { TableService } from '../services/table.service';
 
 
 @Component({
@@ -15,14 +10,13 @@ import { TablesMap } from '../interface/tables.map';
   templateUrl: './querybuilder.component.html',
   styleUrls: ['./querybuilder.component.css'],
   changeDetection: ChangeDetectionStrategy.Default,
-
+  providers: [TableService]
 
 })
 export class QuerybuilderComponent implements OnChanges, OnInit {
 
   @Input() tableMapDrop: TablesMap[];
-
-  @ViewChild(QueryBuilderComponent, { static: false }) queryBuilder: QueryBuilderComponent;
+   @ViewChild(QueryBuilderComponent, { static: false }) queryBuilder: QueryBuilderComponent;
   //  public tables_name: Array<string> = [];
   public currentConfig: QueryBuilderConfig[] = [];
   public queryArray = [];
@@ -30,19 +24,12 @@ export class QuerybuilderComponent implements OnChanges, OnInit {
   public allowRuleset = true;
   public allowCollapse: boolean;
   public persistValueOnFieldChange = true;
-  public queryCtrl: FormControl;
-  public $table_name:string;
-  @Input() config: QueryBuilderConfig;
-  public query: { condition: string; rules: { field: any; operator: string; value: string; }[]; };
-  public entity_table: string = '';
-  private characterType: string = "character varying";
-  private NumericType: string = "numeric";
-  private IntergerType: string = "integer";
-  private DateType: string = "date";
-  private TimeType: string = "timestamp without time zone";
+  queryFormGroup:FormGroup;
+  queryCtrl: FormControl;
+  qurybuilder = new FormArray([]);
 
   myOperatorMap = {
-    string: ['=', '!=', 'contains', 'like','is null'],
+    string: ['=', '!=', 'contains', 'like', 'is null'],
     number: ['=', '!=', '>', '>=', '<', '<='],
     time: ['=', '!=', '>', '>=', '<', '<='],
     date: ['=', '!=', '>', '>=', '<', '<='],
@@ -50,10 +37,18 @@ export class QuerybuilderComponent implements OnChanges, OnInit {
     boolean: ['='],
 
   };
-  constructor() {
+
+  constructor( private formBuilder: FormBuilder,private webTableService: TableService) {
+   
+    this.queryFormGroup = formBuilder.group({
+      query: formBuilder.array([])
+   });
+   
+    this.queryCtrl = this.formBuilder.control(this.queryArray);
 
   }
 
+  
 
 
   ngOnInit() {
@@ -61,9 +56,8 @@ export class QuerybuilderComponent implements OnChanges, OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-
     this.dropData();
-     }
+  }
 
   userExpression: String = 'Attribute = undefined';
 
@@ -71,38 +65,17 @@ export class QuerybuilderComponent implements OnChanges, OnInit {
 
 
     if (this.tableMapDrop.length > 0) {
-      this.tableNameArray=[];
+      this.tableNameArray = [];
       for (let i = 0; i < this.tableMapDrop.length; i++) {
         this.currentConfig[i] = (this.configData(this.tableMapDrop[i]));
-       
+
       }
     }
 
   }
 
-  setqueryObj(fields: FieldMap) {
-    var arrayFields = Object.keys(fields);
-    this.$table_name='';
-    this.$table_name=arrayFields[0];
-    console.log(this.$table_name);
-   /*  var ruleSetArray = [];
-    var query = {
-      condition: 'and',
-      rules: []
-    }
-    if (arrayFields.length > 0) {
-      for (let i = 0; i < arrayFields.length; i++) {
-        if (arrayFields.length - 1 > 0) {
-          ruleSetArray[i] = {
-            field: arrayFields[i],
-          }
-        }
-      }
-
-      query.rules = ruleSetArray;
-      return query;
-
-    } */
+  addSkill() {
+    this.queryArray.push(new FormControl(''));
   }
 
   configData(objeTable: TablesMap): QueryBuilderConfig {
@@ -117,7 +90,7 @@ export class QuerybuilderComponent implements OnChanges, OnInit {
     }
     columnArray.unshift('*');
     dataTypesArray.unshift('null');
-    console.log('column Array',columnArray);
+    console.log('column Array', columnArray);
     console.log('dataType')
     return this.configQueryBuilder(table_Name, columnArray, dataTypesArray);
   }
@@ -127,7 +100,7 @@ export class QuerybuilderComponent implements OnChanges, OnInit {
     var fieldDataType;
     fieldColumn = columnArray.map(items => items.toString());
     fieldDataType = dataTypesArray.map(items => items.toString());
-   
+
     return this.mapQueryConfig(table_Name, fieldColumn, fieldDataType);
 
   }
@@ -144,26 +117,25 @@ export class QuerybuilderComponent implements OnChanges, OnInit {
 
     for (var i = 0; i < fieldColumn.length; i++) {
 
-      if(fieldColumn[i]==='*')
-      {
+      if (fieldColumn[i] === '*') {
         fieldsS[fieldColumn[i]] =
         {
           name: [fieldColumn[i]],
           entity: table_name,
-          type:'string',
-          operator:'is null',          
-          
-        }  
+          type: 'string',
+          operator: 'is null',
+
+        }
       }
-      else{
-      fieldsS[fieldColumn[i]] =
-      {
-        name: [fieldColumn[i]],
-        type: [this.MapDataTypes(fieldDataType[i])],
-        entity: table_name,
-        defaultValue: null
+      else {
+        fieldsS[fieldColumn[i]] =
+        {
+          name: [fieldColumn[i]],
+          type: [this.MapDataTypes(fieldDataType[i])],
+          entity: table_name,
+          defaultValue: null
+        }
       }
-    }
     }
     config.fields = fieldsS;
     return config;
@@ -176,49 +148,52 @@ export class QuerybuilderComponent implements OnChanges, OnInit {
   passData(queryArray) {
 
     let querySend = [];
-    for(let i=0;i<queryArray.length;i++)
-    {
-      let objeTable={[this.tableMapDrop[i].table_name]:queryArray[i]};
-      querySend[i]=objeTable;    
+    for (let i = 0; i < queryArray.length; i++) {
+      let objeTable = { [this.tableMapDrop[i].table_name]: queryArray[i] };
+      querySend[i] = objeTable;
     }
-    console.log("tableMap"+JSON.stringify(querySend));
-  //  console.log("queryArray"+queryArray);
-    /* let querySend = [];
-  
-    let objeTable = { [this.entity_table]: $uiExpression };
-    querySend[0] = objeTable;
+    console.log("tableMap" + JSON.stringify(querySend));
   
     this.webTableService.sendPostRequest(querySend).subscribe(
       res => {
         console.log(res);
       }
     );
-    console.log(console.log('uiExpression ', JSON.stringify(querySend)));
-   */
+   // console.log(console.log('uiExpression ', JSON.stringify(querySend)));
+  
   }
 
-  
 
 
-  MapDataTypes(type:string) {
+
+  MapDataTypes(type: string) {
     var datatype = '';
-    
-    if (type === this.characterType) {
+    var characterType: string = "character varying";
+    var NumericType: string = "numeric";
+    var IntergerType: string = "integer";
+    var DateType: string = "date";
+    var BooleanType: string = "boolean";
+    var TimeType: string = "timestamp without time zone";
+
+    if (type === characterType) {
       datatype = 'string';
 
     }
 
-    else if (type === this.NumericType || type === this.IntergerType) {
+    else if (type === NumericType || type === IntergerType) {
       datatype = 'number';
 
     }
-    else if (type === this.DateType) {
+    else if (type === DateType) {
 
       datatype = 'date';
-        ;
+      ;
     }
-    else if (type === this.TimeType) {
+    else if (type === TimeType) {
       datatype = 'date';
+    }
+    else if (type === BooleanType) {
+      datatype = 'boolean';
     }
     else {
       datatype = 'string';
@@ -230,10 +205,12 @@ export class QuerybuilderComponent implements OnChanges, OnInit {
 
 
 
-  removeFromList(addedItem) {
-    const index = this.tableMapDrop.indexOf(addedItem);
+  removeFromList(index) {
+    // const index = this.tableMapDrop.indexOf(addedItem);
     this.tableMapDrop.splice(index, 1);
-   }
+    this.currentConfig[index].removeRuleSet;
+    this.currentConfig.slice(index, 1);
+  }
 
 
 

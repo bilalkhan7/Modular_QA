@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
   "start": "node ./routes.ts ",
-   "dev": "concurrently --kill-others \"nodemon modular.py\" \"nodemon routes.ts\"",
+   "dev": "concurrently --kill-others  \"nodemon modular.py\" \nodemon routes.ts\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {

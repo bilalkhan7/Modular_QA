@@ -1,17 +1,32 @@
 [{
-      "expense_fact":{
+      "sales_fact":{
       "condition": "and",
       "rules": [
         {
-          "field": "account_id",
+          "field": "unit_sales",
           "operator": ">",
-          "value": "4100"  
+          "value": "0"  
         },
         {
           "condition": "or",
           "rules": []
     }]
   }
+},
+{
+  "customer":{
+  "condition": "and",
+  "rules": [
+    {
+      "field": "lname",
+      "operator": "=",
+      "value": "Filsen"  
+    },
+    {
+      "condition": "or",
+      "rules": []
+}]
+}
 }
 ]    
    
