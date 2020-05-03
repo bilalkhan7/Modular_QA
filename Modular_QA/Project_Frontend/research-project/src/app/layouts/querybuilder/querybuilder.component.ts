@@ -1,12 +1,9 @@
-<<<<<<< HEAD
-import { Component, Input, ViewEncapsulation, OnChanges, DoCheck, OnInit, SimpleChanges, ChangeDetectionStrategy, ViewChild, VERSION } from '@angular/core';
-import { FormBuilder, FormControl } from '@angular/forms';
-import { QueryBuilderClassNames, QueryBuilderConfig, Field, FieldMap, Entity, QueryBuilderComponent, Rule, RuleSet, QueryInputDirective } from 'angular2-query-builder';
-=======
-import { Component, Input, OnChanges, OnInit, SimpleChanges, ChangeDetectionStrategy, ViewChild } from '@angular/core';
+import {
+  Component, Input, OnChanges, OnInit, SimpleChanges,
+  ChangeDetectionStrategy, ViewChild, EventEmitter, Output
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { QueryBuilderConfig, FieldMap, QueryBuilderComponent } from 'angular2-query-builder';
->>>>>>> rizwan_code
 import { TablesMap } from '../interface/tables.map';
 
 
@@ -21,7 +18,8 @@ import { TablesMap } from '../interface/tables.map';
 export class QuerybuilderComponent implements OnChanges, OnInit {
 
   @Input() tableMapDrop: TablesMap[];
-
+  @Output() onSubmitData: EventEmitter<any> = new EventEmitter<any>();
+  
   @ViewChild(QueryBuilderComponent, { static: false }) queryBuilder: QueryBuilderComponent;
   //  public tables_name: Array<string> = [];
   public currentConfig: QueryBuilderConfig[] = [];
@@ -31,7 +29,7 @@ export class QuerybuilderComponent implements OnChanges, OnInit {
   public allowCollapse: boolean;
   public persistValueOnFieldChange = true;
   public queryCtrl: FormControl;
-  public $table_name:string;
+  public $table_name: string;
   @Input() config: QueryBuilderConfig;
   public query: { condition: string; rules: { field: any; operator: string; value: string; }[]; };
   public entity_table: string = '';
@@ -40,9 +38,9 @@ export class QuerybuilderComponent implements OnChanges, OnInit {
   private IntergerType: string = "integer";
   private DateType: string = "date";
   private TimeType: string = "timestamp without time zone";
-
+  displayElement = true;
   myOperatorMap = {
-    string: ['=', '!=', 'contains', 'like','is null'],
+    string: ['=', '!=', 'contains', 'like', 'is null'],
     number: ['=', '!=', '>', '>=', '<', '<='],
     time: ['=', '!=', '>', '>=', '<', '<='],
     date: ['=', '!=', '>', '>=', '<', '<='],
@@ -63,46 +61,30 @@ export class QuerybuilderComponent implements OnChanges, OnInit {
   ngOnChanges(changes: SimpleChanges) {
 
     this.dropData();
-     }
+   // this.onSubmitData.emit(this.queryArray);
+  }
 
   userExpression: String = 'Attribute = undefined';
 
   dropData() {
 
-
+    this.displayElement=true;
     if (this.tableMapDrop.length > 0) {
-      this.tableNameArray=[];
+      this.tableNameArray = [];
       for (let i = 0; i < this.tableMapDrop.length; i++) {
         this.currentConfig[i] = (this.configData(this.tableMapDrop[i]));
-       
+
       }
     }
 
   }
 
+  
+
   setqueryObj(fields: FieldMap) {
     var arrayFields = Object.keys(fields);
-    this.$table_name='';
-    this.$table_name=arrayFields[0];
-    console.log(this.$table_name);
-   /*  var ruleSetArray = [];
-    var query = {
-      condition: 'and',
-      rules: []
-    }
-    if (arrayFields.length > 0) {
-      for (let i = 0; i < arrayFields.length; i++) {
-        if (arrayFields.length - 1 > 0) {
-          ruleSetArray[i] = {
-            field: arrayFields[i],
-          }
-        }
-      }
+    
 
-      query.rules = ruleSetArray;
-      return query;
-
-    } */
   }
 
   configData(objeTable: TablesMap): QueryBuilderConfig {
@@ -117,7 +99,7 @@ export class QuerybuilderComponent implements OnChanges, OnInit {
     }
     columnArray.unshift('*');
     dataTypesArray.unshift('null');
-    console.log('column Array',columnArray);
+    console.log('column Array', columnArray);
     console.log('dataType')
     return this.configQueryBuilder(table_Name, columnArray, dataTypesArray);
   }
@@ -127,7 +109,7 @@ export class QuerybuilderComponent implements OnChanges, OnInit {
     var fieldDataType;
     fieldColumn = columnArray.map(items => items.toString());
     fieldDataType = dataTypesArray.map(items => items.toString());
-   
+
     return this.mapQueryConfig(table_Name, fieldColumn, fieldDataType);
 
   }
@@ -144,26 +126,25 @@ export class QuerybuilderComponent implements OnChanges, OnInit {
 
     for (var i = 0; i < fieldColumn.length; i++) {
 
-      if(fieldColumn[i]==='*')
-      {
+      if (fieldColumn[i] === '*') {
         fieldsS[fieldColumn[i]] =
         {
           name: [fieldColumn[i]],
           entity: table_name,
-          type:'string',
-          operator:'is null',          
-          
-        }  
+          type: 'string',
+          operator: 'is null',
+
+        }
       }
-      else{
-      fieldsS[fieldColumn[i]] =
-      {
-        name: [fieldColumn[i]],
-        type: [this.MapDataTypes(fieldDataType[i])],
-        entity: table_name,
-        defaultValue: null
+      else {
+        fieldsS[fieldColumn[i]] =
+        {
+          name: [fieldColumn[i]],
+          type: [this.MapDataTypes(fieldDataType[i])],
+          entity: table_name,
+          defaultValue: null
+        }
       }
-    }
     }
     config.fields = fieldsS;
     return config;
@@ -173,58 +154,57 @@ export class QuerybuilderComponent implements OnChanges, OnInit {
 
 
 
-  passData(queryArray) {
-
+ public submitData() {
+ 
     let querySend = [];
-    for(let i=0;i<queryArray.length;i++)
-    {
-      let objeTable={[this.tableMapDrop[i].table_name]:queryArray[i]};
-      querySend[i]=objeTable;    
-    }
-    console.log("tableMap"+JSON.stringify(querySend));
-  //  console.log("queryArray"+queryArray);
-    /* let querySend = [];
-  
-    let objeTable = { [this.entity_table]: $uiExpression };
-    querySend[0] = objeTable;
-  
-    this.webTableService.sendPostRequest(querySend).subscribe(
-      res => {
-        console.log(res);
+    console.log("table ",JSON.stringify(this.tableMapDrop));
+    console.log("query ",this.queryArray.length);
+    if(this.tableMapDrop.length>0 && this.queryArray.length>0){
+      for (let i = 0; i < this.queryArray.length; i++) {
+        if(this.tableMapDrop[i].table_name!==undefined){
+        let objeTable = { [this.tableMapDrop[i].table_name]: this.queryArray[i] };
+        querySend[i] = objeTable;
+        }
+        else{
+          alert("Error in rendireing table data");
+        }
+        
+      
       }
-    );
-    console.log(console.log('uiExpression ', JSON.stringify(querySend)));
-   */
+    }
+
+
+    this.onSubmitData.emit(querySend);
+  
   }
 
-  
 
 
-  MapDataTypes(type:string) {
-    var datatype = '';
-    
+
+  MapDataTypes(type: string) {
+    var datatype;
+    var datatypeNumber;
     if (type === this.characterType) {
       datatype = 'string';
 
     }
 
-    else if (type === this.NumericType || type === this.IntergerType) {
+     if (type === this.NumericType || type === this.IntergerType) {
       datatype = 'number';
 
     }
-    else if (type === this.DateType) {
+    if (type === this.DateType) {
 
       datatype = 'date';
-        ;
     }
-    else if (type === this.TimeType) {
-      datatype = 'date';
+    if (type === this.TimeType) {
+      datatype = 'time';
     }
-    else {
-      datatype = 'string';
+    if (type==='boolean'){
+      datatype = 'boolean';
 
     }
-
+  console.log('datatype'+datatype);
     return datatype;
   }
 
@@ -233,34 +213,21 @@ export class QuerybuilderComponent implements OnChanges, OnInit {
   removeFromList(addedItem) {
     const index = this.tableMapDrop.indexOf(addedItem);
     this.tableMapDrop.splice(index, 1);
-   }
+  }
 
 
-
-
-  /*   setExpressionParam(): FieldMap{
+  handleCloseButton(event: Event,value) {
+    console.log(event);
+    //this.currentConfig[value].removeRuleSet;
+    this.currentConfig.splice(value,1);
+    const index = this.tableMapDrop.indexOf(value);
+    console.log("table index"+index);
+    this.tableMapDrop.splice(index, 1);
+    //this.currentConfig.splice(value,1);
     
-      let objList: Field[] = []; 
-        this.Map.parameters.forEach(param => { 
-              let x = { name: param.parameterName, type: 'string' }
-              if (objList.indexOf(x) === -1) {
-                objList.push(x); 
-              }  
-        }); 
-  
-      const arrayToObject = (array) =>
-          array.reduce((obj, item) => {
-            obj[item.name] = item
-            return obj
-          }, {})
-      
-      const fieldMap:FieldMap = arrayToObject(objList)
-  
-      console.log(objList);
-      console.log(fieldMap); 
-      return fieldMap; ;
-    
-  }  */
+  }
+
+ 
 
 
 }

@@ -21,20 +21,9 @@ export class SidebarComponent implements OnInit {
     this.Tables();
   }
 
-
-
   Tables() {
     this.webTableService.fetchData().subscribe(response => this.tableMap = response);
 
   }
-
-
-
-
-
-
-
-
-
 
 }
