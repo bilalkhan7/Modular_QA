@@ -15,6 +15,7 @@ import { HttpClient } from '@angular/common/http';
 export class NavbarComponent implements OnInit, AfterViewInit {
   @ViewChild(QuerybuilderComponent /* #name or Type*/, {static: false}) child;
   public tableMapDrop: TablesMap[] = [];
+  public isSubmitRequest=false;
   displayElement = true;
   showSpinner: boolean;
   constructor(public spinnerService: SpinnerService,private tableService:TableService,private _http: HttpClient) {
@@ -22,7 +23,11 @@ export class NavbarComponent implements OnInit, AfterViewInit {
    }
 
   ngOnInit() {
-    console.log('value changed', this.tableMapDrop);
+    setTimeout(() => {
+      this.isSubmitRequest=false;
+      console.log('value changed', this.tableMapDrop); 
+  });
+   
   }
 
 
@@ -53,12 +58,26 @@ export class NavbarComponent implements OnInit, AfterViewInit {
     console.log("displayElement", this.displayElement);
 
   }
+  getJsonDataFromChild()
+  {
+    if(this.tableMapDrop.length>0)
+    {this.isSubmitRequest=true;}
+    else{
+      alert("No Table Added for search");
+    }
+    
+    console.log("isSubmitData",this.isSubmitRequest);
+  }
 
   handleJsonDataChild(eventData:[]) {
+    this.isSubmitRequest=false;
     var jsonArray=[];
     jsonArray=eventData;
+    if(jsonArray!==undefined)
+    {
     console.log("data from child ", JSON.stringify(jsonArray));
-     
+    }
+    
     this.tableService.doWork().subscribe(
       success => {
         console.log('Done');
@@ -78,17 +97,10 @@ export class NavbarComponent implements OnInit, AfterViewInit {
  */
   }
 
-  /* showAlert() : void {
-    if (this.isVisible) { // if the alert is visible return
-      return;
-    } 
-    this.isVisible = true;
-    setTimeout(()=> this.isVisible = false,2500); // hide the alert after 2.5s
-  } */
-
+ 
 
   ngAfterViewInit() {
-
+   /*  this.isSubmitRequest=false; */
   }
   
 

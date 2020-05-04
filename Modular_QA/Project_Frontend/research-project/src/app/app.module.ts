@@ -28,6 +28,11 @@ import { MatCardModule } from '@angular/material/card';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { DashboardComponent } from './layouts/dashboard/dashboard.component';
+import {TestComponent} from './layouts/test/test.component';
+import {GraphsComponent} from './layouts/graphs/graphs.component';
+import { TableComponent } from './layouts/table/table.component';
+
 @NgModule({
   imports: [
     BrowserAnimationsModule,
@@ -60,6 +65,11 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     SidebarComponent,
     NavbarComponent,
     QuerybuilderComponent,
+    DashboardComponent,
+    TestComponent,
+    GraphsComponent,
+    TableComponent,
+    
 
   ], exports: [
     MatButtonModule,

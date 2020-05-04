@@ -25,5 +25,9 @@ export class SidebarComponent implements OnInit {
     this.webTableService.fetchData().subscribe(response => this.tableMap = response);
 
   }
+  getConcatString(value:string)
+  {
+    return value.replace( /_/g, " " )
+  }
 
 }

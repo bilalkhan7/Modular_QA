@@ -1,6 +1,6 @@
 import {
   Component, Input, OnChanges, OnInit, SimpleChanges,
-  ChangeDetectionStrategy, ViewChild, EventEmitter, Output
+  ChangeDetectionStrategy, ViewChild, EventEmitter, Output, SimpleChange,ChangeDetectorRef
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { QueryBuilderConfig, FieldMap, QueryBuilderComponent } from 'angular2-query-builder';
@@ -11,18 +11,29 @@ import { TablesMap } from '../interface/tables.map';
   selector: 'app-querybuilder',
   templateUrl: './querybuilder.component.html',
   styleUrls: ['./querybuilder.component.css'],
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 
 
 })
 export class QuerybuilderComponent implements OnChanges, OnInit {
-
+  private _item:boolean;
   @Input() tableMapDrop: TablesMap[];
+  @Input()
+  set isSubmitRequest(val: boolean) {
+    if(val!==undefined)   
+      {this._item=val;}
+  }
+
+  get getSubmitRequest(): boolean { 
+    return this._item;
+  }
+
   @Output() onSubmitData: EventEmitter<any> = new EventEmitter<any>();
   
   @ViewChild(QueryBuilderComponent, { static: false }) queryBuilder: QueryBuilderComponent;
   //  public tables_name: Array<string> = [];
   public currentConfig: QueryBuilderConfig[] = [];
+  changeLog: string[] = [];
   public queryArray = [];
   public tableNameArray: string[] = [];
   public allowRuleset = true;
@@ -48,21 +59,29 @@ export class QuerybuilderComponent implements OnChanges, OnInit {
     boolean: ['='],
 
   };
-  constructor() {
+  constructor(private cd: ChangeDetectorRef) {
 
   }
 
 
 
   ngOnInit() {
+    this.isSubmitRequest=false;
+    
 
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+ ngOnChanges(changes: SimpleChanges) {
 
     this.dropData();
-   // this.onSubmitData.emit(this.queryArray);
-  }
+    if(this._item)
+    {
+      this.submitData();
+    }
+  
+  } 
+
+
 
   userExpression: String = 'Attribute = undefined';
 
@@ -76,14 +95,6 @@ export class QuerybuilderComponent implements OnChanges, OnInit {
 
       }
     }
-
-  }
-
-  
-
-  setqueryObj(fields: FieldMap) {
-    var arrayFields = Object.keys(fields);
-    
 
   }
 
@@ -152,8 +163,6 @@ export class QuerybuilderComponent implements OnChanges, OnInit {
 
 
 
-
-
  public submitData() {
  
     let querySend = [];
@@ -172,10 +181,9 @@ export class QuerybuilderComponent implements OnChanges, OnInit {
       
       }
     }
-
-
+   
     this.onSubmitData.emit(querySend);
-  
+    
   }
 
 
@@ -226,7 +234,9 @@ export class QuerybuilderComponent implements OnChanges, OnInit {
     //this.currentConfig.splice(value,1);
     
   }
-
+  ngAfterViewInit() {
+    this.isSubmitRequest=false;
+}
  
 
 
