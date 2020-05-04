@@ -60,6 +60,7 @@ export class QuerybuilderComponent implements OnChanges, OnInit {
 
   };
   constructor(private cd: ChangeDetectorRef) {
+    
 
   }
 
@@ -67,6 +68,7 @@ export class QuerybuilderComponent implements OnChanges, OnInit {
 
   ngOnInit() {
     this.isSubmitRequest=false;
+
     
 
   }
