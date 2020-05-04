@@ -13,7 +13,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatSelectModule} from '@angular/material/select';
 import {TableService } from './services/table.service';
 import {MatIconModule} from '@angular/material/icon';
-import {HttpClientModule } from '@angular/common/http';
+import{MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+
 /* import { QueryBuilderModule } from 'angular2-query-builder'; */
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -22,6 +23,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatRadioModule } from '@angular/material/radio';
 import { TestComponent } from './test/test.component';
 import { GraphsComponent } from './graphs/graphs.component';
+import { CustomHttpInterceptor } from './services/http-interceptor';
 
 
 @NgModule({
@@ -36,7 +38,6 @@ import { GraphsComponent } from './graphs/graphs.component';
     MatInputModule,
     MatSelectModule,
     MatTooltipModule,
-    HttpClientModule,
     MatIconModule,
     MatCardModule,
     MatCheckboxModule,
@@ -44,6 +45,7 @@ import { GraphsComponent } from './graphs/graphs.component';
     MatDatepickerModule,
     MatRadioModule,
     MatSelectModule,
+    MatProgressSpinnerModule
    /*  QueryBuilderModule, */
   ],
   declarations: [
@@ -60,7 +62,8 @@ import { GraphsComponent } from './graphs/graphs.component';
     MatIconModule,
 
   ],
-   providers: [TableService],
+   providers: [TableService
+  ],
 
 })
 

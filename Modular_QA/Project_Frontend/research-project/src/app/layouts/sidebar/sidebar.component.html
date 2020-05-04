@@ -27,7 +27,7 @@
 
   <ul class="nav">  
 
-    <div class="container">
+    <!-- <div class="container">
       <mat-form-field>
         <mat-select  placeholder="Tables" #singleSelect>
           <mat-option>
@@ -39,7 +39,7 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-    </div>
+    </div> -->
 
      <li routerLinkActive="active" *ngFor="let menuItem of tableMap  " cdkDrag [cdkDragData]="menuItem">
       <a class="nav-link" [routerLink]="[menuItem.table_name]">

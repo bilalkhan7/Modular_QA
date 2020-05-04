@@ -2,6 +2,9 @@ import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop'
 import { TablesMap } from '../interface/tables.map'
 import { QuerybuilderComponent } from '../querybuilder/querybuilder.component';
+import { SpinnerService } from '../services/spinner.service';
+import { TableService } from '../services/table.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-navbar',
@@ -13,7 +16,8 @@ export class NavbarComponent implements OnInit, AfterViewInit {
   @ViewChild(QuerybuilderComponent /* #name or Type*/, {static: false}) child;
   public tableMapDrop: TablesMap[] = [];
   displayElement = true;
-  constructor() {
+  showSpinner: boolean;
+  constructor(public spinnerService: SpinnerService,private tableService:TableService,private _http: HttpClient) {
     
    }
 
@@ -54,6 +58,15 @@ export class NavbarComponent implements OnInit, AfterViewInit {
     var jsonArray=[];
     jsonArray=eventData;
     console.log("data from child ", JSON.stringify(jsonArray));
+     
+    this.tableService.doWork().subscribe(
+      success => {
+        console.log('Done');
+      },
+      error => {
+        console.error('Error');
+      }
+    );
 
     /* this.webTableService.sendPostRequest(querySend).subscribe(
       res => {
@@ -64,6 +77,15 @@ export class NavbarComponent implements OnInit, AfterViewInit {
    
  */
   }
+
+  /* showAlert() : void {
+    if (this.isVisible) { // if the alert is visible return
+      return;
+    } 
+    this.isVisible = true;
+    setTimeout(()=> this.isVisible = false,2500); // hide the alert after 2.5s
+  } */
+
 
   ngAfterViewInit() {
 

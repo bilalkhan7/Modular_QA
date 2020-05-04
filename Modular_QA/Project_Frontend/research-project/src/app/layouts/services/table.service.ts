@@ -14,13 +14,19 @@ export class TableService {
   postDataServer={
     test:'test'
   }
- constructor(private http: HttpClient) { }
+ constructor(private httpClient: HttpClient) { }
   fetchData = (): Observable<TablesMap[]> => {
-    return this.http.get<TablesMap[]>(this.getdataurl);
+    return this.httpClient.get<TablesMap[]>(this.getdataurl);
   }
 
  
   sendPostRequest(data: any): Observable<any> {
-    return this.http.post<any>(this.postDataUrl, data);
+    return this.httpClient.post<any>(this.postDataUrl, data);
+}
+
+doWork() {
+  // Make a get request
+ return this.httpClient.get<any>('http://dummy.restapiexample.com/api/v1/employees');
+  
 }
 }
