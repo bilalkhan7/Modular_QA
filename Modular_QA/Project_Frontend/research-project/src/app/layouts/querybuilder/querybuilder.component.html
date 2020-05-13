@@ -1,27 +1,26 @@
 <div>
-  <div >
-   <!--  <form [formGroup]="demoForm">
-    
-    <div  formArrayName="demoArray"  *ngFor="let config of currentConfig; index as i" >
-       -->
-      <div class="alert alert-warning">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="removeFromList(i)">
-          <i class="material-icons">close</i>
-        </button>
-        <span>
-        <b> {{this.tableMapDrop[i].table_name}} </b> </span>
+  <div *ngFor="let config of currentConfig; index as i">
+    <div *ngIf="displayElement">
+      <div class="card">
+        <div class="card-body">
+          <div class="alert alert-warning">
+            <button (click)="handleCloseButton($event,i)" type="button" class="close" data-dismiss="alert"
+              aria-label="Close">
+              <i class="material-icons">close</i>
+            </button>
+            <span>
+              <b> {{this.tableMapDrop[i].table_name|uppercase}}</b> </span>
+          </div>
+          <query-builder [(ngModel)]='queryArray[i]' [config]='config' (onChangeCallback)="onchange()"
+            [operatorMap]='myOperatorMap'>
+          </query-builder>
+
+        </div>
+
       </div>
-  
-      <mat-card>
-       <query-builder [formControl]='queryCtrl' [(ngModel)]='queryArray[i]' [config]='config' (onChangeCallback)="onchange()" [operatorMap]='myOperatorMap' >
-   
-      </query-builder>
-
-  </mat-card>
+    </div>
   </div>
-
-  <button type="submit" class="btn pull-right" style="background-color: #fd9b16;margin-top: 30px;" 
-    (click)="passData(queryArray)">Submit</button>
-  <div class="clearfix"></div>
-
+  <!-- <button type="button" (click)="submitData(queryArray)" class="btn pull-right"
+    style="background-color: #fd9b16;margin-top: 50px;;margin-right: 10px; visibility:visible;">Submit</button>
+  <div class="clearfix"></div> -->
 </div>

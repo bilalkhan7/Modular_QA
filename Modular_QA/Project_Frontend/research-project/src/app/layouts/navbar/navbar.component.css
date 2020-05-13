@@ -1,58 +1,55 @@
-
-.column-container {
-    width: 400px;
-    max-width: 100%;
-    margin: 0 25px 25px 0;
-    display: inline-block;
-    vertical-align: top;
-    background-color: rgba(255, 255, 255, 0.05);
-  }
+.drag-container {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 25px 5px 0;
+  display: inline-block;
+  vertical-align: top;
+  background-color: rgb(248, 248, 248);
+  padding:5px;
+  border-radius: 5px;
+  border: solid 1px #fd9b16;
+}
+.item-list {
+  min-height: 100px;
+  border-radius: 4px;
+  display: block;
   
-
-  #menu-outer {
-    height: 130px;
-    border: 1px solid #fd9b16;
-    
-  }
   
-  .table {
-    display: table;   /* Allow the centering to work */
-    margin: 0 auto;
-  }
-  
-  ul#horizontal-list {
-    min-width: 696px;
-    list-style: none;
-    padding-top: 20px;
-    }
-    ul#horizontal-list li {
-      display: inline;
-    }
-
-
-    .sortable-item {
-      padding: 6px 12px;
-      margin: 4px;
-      font-size: 14px;
-      line-height: 1.4em;
-      text-align: center;
-      cursor: grab;
-      border: 1px solid transparent;
-      border-radius: 4px;
-      border-color: #adadad;
-      display: inline-block;
-  }
-
-  .code-preview {
-    display: block;
-    padding: 10px;
-    margin: 0 0 10px;
-    font-size: 13px;
-    line-height: 1.4;
-    color: #333;
-    word-break: break-all;
-    word-wrap: break-word;
-    background-color: #f5f5f5;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+}
+ 
+.item-box {
+  padding: 8px 10px;
+  border: solid 1px #fd9b16;
+  margin-bottom: 5px;
+  color: rgba(0, 0, 0, 0.87);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  cursor: move;
+  background: white;
+  font-size: 14px;
+  border-radius: 20px;
+}
+ 
+.cdk-drag-preview {
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+              0 8px 10px 1px rgba(0, 0, 0, 0.14),
+              0 3px 14px 2px rgba(0, 0, 0, 0.12);
+  border-radius: 20px;
+}
+ 
+.cdk-drag-placeholder {
+  opacity: 0;
+}
+ 
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+ 
+.item-list.cdk-drop-list-dragging .item-box:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }

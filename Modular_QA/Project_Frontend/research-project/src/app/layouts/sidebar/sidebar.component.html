@@ -25,25 +25,13 @@
 
 <div class="sidebar-wrapper" id="dragListTable" cdkDropList [cdkDropListConnectedTo]="['dropListTable']">
 
-  <ul class="nav">
+  <ul class="nav">  
 
-    <!-- <mat-form-field>
-      <input type="text" placeholder="Search Attributes"  aria-label="State" matInput [matAutocomplete]="auto" [formControl]="myForm">
-
-      <mat-autocomplete #auto="matAutocomplete">
-        <mat-option *ngFor="let menuItem of filteredStates | async" [value]=" menuItem.table_name | titlecase " (onSelectionChange)=onSelectedState(menuItem) cdkDrag
-          [cdkDragData]="menuItem">
-          {{menuItem.table_name | titlecase}}
-          
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field> -->
-
-    <div class="container">
+    <!-- <div class="container">
       <mat-form-field>
-        <mat-select [formControl]="bankCtrl" placeholder="Bank" #singleSelect>
+        <mat-select  placeholder="Tables" #singleSelect>
           <mat-option>
-            <ngx-mat-select-search [formControl]="bankFilterCtrl"></ngx-mat-select-search>
+            <ngx-mat-select-search ></ngx-mat-select-search>
           </mat-option>
     
           <mat-option *ngFor="let bank of tableMap " [value]="bank">
@@ -51,11 +39,11 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-    </div>
+    </div> -->
 
-     <li routerLinkActive="active" *ngFor="let menuItem of tableMap  " cdkDrag [cdkDragData]="menuItem">
+     <li routerLinkActive="active" *ngFor="let menuItem of tableMap " cdkDrag [cdkDragData]="menuItem">
       <a class="nav-link" [routerLink]="[menuItem.table_name]">
-        <p>{{menuItem.table_name | titlecase}}</p>
+        <p>{{getConcatString(menuItem.table_name) | titlecase}}</p>
       </a>
 
     </li> 
