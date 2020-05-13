@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { QueryBuilderModule } from 'angular2-query-builder';
 import { CustomHttpInterceptor } from './layouts/services/http-interceptor';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {
   AgmCoreModule
 } from '@agm/core';
@@ -54,6 +55,7 @@ import { TableComponent } from './layouts/table/table.component';
     MatCardModule,
     MatRadioModule,
     MatDatepickerModule,
+    MatAutocompleteModule,
     MatProgressSpinnerModule,
     AgmCoreModule.forRoot({
       apiKey: 'YOUR_GOOGLE_MAPS_API_KEY'

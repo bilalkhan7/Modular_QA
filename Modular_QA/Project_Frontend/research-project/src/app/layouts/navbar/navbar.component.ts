@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, Output, EventEmitter } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop'
 import { TablesMap } from '../interface/tables.map'
 import { QuerybuilderComponent } from '../querybuilder/querybuilder.component';
@@ -18,6 +18,85 @@ export class NavbarComponent implements OnInit, AfterViewInit {
   public isSubmitRequest=false;
   displayElement = true;
   showSpinner: boolean;
+  @Output() onSearchDataResult: EventEmitter<any> = new EventEmitter<any>();
+  @Output() onClearHideTableView:EventEmitter<string>=new EventEmitter <string>();
+
+  tableArray=  [
+    {
+      "a_unit_sales": "3.0000",
+      "b_fname": "Sharon",
+      "a_unit_discount": "3.0000",
+      "b_name": "Sharon",
+      "c_unit_share": "3.0000",
+      "d_name_test": "Sharon",
+
+    },
+    {
+      "a_unit_sales": "3.0000",
+      "b_fname": "Sharon",
+      "a_unit_discount": "3.0000",
+      "b_name": "Sharon",
+      "c_unit_share": "3.0000",
+      "d_name_test": "Sharon",
+    },
+    {
+      "a_unit_sales": "3.0000",
+      "b_fname": "Sharon",
+      "a_unit_discount": "3.0000",
+      "b_name": "Sharon",
+      "c_unit_share": "3.0000",
+      "d_name_test": "Sharon",
+    }, {
+      "a_unit_sales": "3.0000",
+      "b_fname": "Sharon",
+      "a_unit_discount": "3.0000",
+      "b_name": "Sharon",
+      "c_unit_share": "3.0000",
+      "d_name_test": "Sharon",
+    }, {
+      "a_unit_sales": "3.0000",
+      "b_fname": "Sharon",
+      "a_unit_discount": "3.0000",
+      "b_name": "Sharon",
+      "c_unit_share": "3.0000",
+      "d_name_test": "Sharon",
+    }, {
+      "a_unit_sales": "3.0000",
+      "b_fname": "Sharon",
+      "a_unit_discount": "3.0000",
+      "b_name": "Sharon",
+      "c_unit_share": "3.0000",
+      "d_name_test": "Sharon",
+    }, {
+      "a_unit_sales": "3.0000",
+      "b_fname": "Sharon",
+      "a_unit_discount": "3.0000",
+      "b_name": "Sharon",
+      "c_unit_share": "3.0000",
+      "d_name_test": "Sharon",
+    }, {
+      "a_unit_sales": "3.0000",
+      "b_fname": "Sharon",
+      "a_unit_discount": "3.0000",
+      "b_name": "Sharon",
+      "c_unit_share": "3.0000",
+      "d_name_test": "Sharon",
+    }, {
+      "a_unit_sales": "3.0000",
+      "b_fname": "Sharon",
+      "a_unit_discount": "3.0000",
+      "b_name": "Sharon",
+      "c_unit_share": "3.0000",
+      "d_name_test": "Sharon",
+    },
+    {
+      "a_unit_sales": "3.0000",
+      "b_fname": "Sharon",
+      "a_unit_discount": "3.0000",
+      "b_name": "Sharon",
+      "c_unit_share": "3.0000",
+      "d_name_test": "Sharon",
+    }];
   constructor(public spinnerService: SpinnerService,private tableService:TableService,private _http: HttpClient) {
     
    }
@@ -40,8 +119,7 @@ export class NavbarComponent implements OnInit, AfterViewInit {
         return;
       } else {
         this.tableMapDrop = this.tableMapDrop.concat(event.item.data);
-        //this.tableMapDrop.push(event.item.data);
-        //  console.log('tables',this.tableMapDrop);
+        
       }
 
     }
@@ -66,7 +144,7 @@ export class NavbarComponent implements OnInit, AfterViewInit {
       alert("No Table Added for search");
     }
     
-    console.log("isSubmitData",this.isSubmitRequest);
+  
   }
 
   handleJsonDataChild(eventData:[]) {
@@ -76,25 +154,19 @@ export class NavbarComponent implements OnInit, AfterViewInit {
     if(jsonArray!==undefined)
     {
     console.log("data from child ", JSON.stringify(jsonArray));
-    }
-    
+      
     this.tableService.doWork().subscribe(
       success => {
+   
+        this.onSearchDataResult.emit(this.tableArray);
         console.log('Done');
       },
       error => {
         console.error('Error');
       }
     );
+    }
 
-    /* this.webTableService.sendPostRequest(querySend).subscribe(
-      res => {
-        console.log(res);
-      }
-    );
-    console.log(console.log('uiExpression ', JSON.stringify(querySend)));
-   
- */
   }
 
  

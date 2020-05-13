@@ -112,8 +112,6 @@ export class QuerybuilderComponent implements OnChanges, OnInit {
     }
     columnArray.unshift('*');
     dataTypesArray.unshift('null');
-    console.log('column Array', columnArray);
-    console.log('dataType')
     return this.configQueryBuilder(table_Name, columnArray, dataTypesArray);
   }
 
@@ -168,8 +166,6 @@ export class QuerybuilderComponent implements OnChanges, OnInit {
  public submitData() {
  
     let querySend = [];
-    console.log("table ",JSON.stringify(this.tableMapDrop));
-    console.log("query ",this.queryArray.length);
     if(this.tableMapDrop.length>0 && this.queryArray.length>0){
       for (let i = 0; i < this.queryArray.length; i++) {
         if(this.tableMapDrop[i].table_name!==undefined){

@@ -59,8 +59,7 @@ import { GraphsComponent } from './graphs/graphs.component'; */
     MatIconModule,
 
   ],
-   providers: [TableService
-  ],
+   providers: [TableService],
 
 })
 
