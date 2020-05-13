@@ -1,5 +1,4 @@
 import { Component, AfterViewInit, ViewChild} from '@angular/core';
-import { SpinnerService } from './layouts/services/spinner.service';
 
 
 
@@ -10,9 +9,6 @@ import { SpinnerService } from './layouts/services/spinner.service';
 
 })
 export class AppComponent  {
-constructor(public spinner:SpinnerService)
-{
 
-}
 
 }

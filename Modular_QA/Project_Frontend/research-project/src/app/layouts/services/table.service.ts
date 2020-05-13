@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import {TablesMap} from '../interface/tables.map';
+import {TablesMap, IUserResponse} from '../interface/tables.map';
+import { tap } from 'rxjs/operators';
 
 
 @Injectable()
 export class TableService {
-  //getdataurl="./assets/table_data.json";
-  getdataurl="http://localhost:3000/table_attributes";
+  getdataurl="./assets/table_data.json";
+  //getdataurl="http://localhost:3000/table_attributes";
  
  // postDataUrl="http://httpbin.org/post"
   postDataUrl="http://localhost:3000/get_data"
@@ -29,4 +30,7 @@ doWork() {
  return this.httpClient.get<any>('http://dummy.restapiexample.com/api/v1/employees');
   
 }
+
+
+
 }

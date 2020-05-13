@@ -8,46 +8,44 @@
 
 </div>
 
-<!-- 
-<div class="sidebar-wrapper">
-        <ul class="nav" cdkDropList id="drag-list"  (cdkDropListDropped)="drop($event)">
-             <li routerLinkActive="active" *ngFor="let menuItem of Tables$" 
-             class="{{menuItem.class}} nav-item" 
-             cdkDrag>
-            <a class="nav-link" [routerLink]="[menuItem.table_name]">
-              <p >{{menuItem.table_name | titlecase}}</p>
-            </a>
-    
-          </li>
-    </ul>
-</div>
- -->
 
-<div class="sidebar-wrapper" id="dragListTable" cdkDropList [cdkDropListConnectedTo]="['dropListTable']">
+<div class="sidebar-wrapper" >
 
-  <ul class="nav">  
-
-    <!-- <div class="container">
-      <mat-form-field>
-        <mat-select  placeholder="Tables" #singleSelect>
-          <mat-option>
-            <ngx-mat-select-search ></ngx-mat-select-search>
+ 
+  <div class="container">
+    <form class="example-form">
+      <mat-form-field class="example-full-width">
+        <mat-label> Search Tables</mat-label>
+        <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
+      
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)='getPosts($event.option.value)'>
+          <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+            {{option.table_name|titlecase}}
           </mat-option>
-    
-          <mat-option *ngFor="let bank of tableMap " [value]="bank">
-            {{bank.table_name}}
-          </mat-option>
-        </mat-select>
+        </mat-autocomplete>
       </mat-form-field>
-    </div> -->
+    </form>
+  </div>
 
-     <li routerLinkActive="active" *ngFor="let menuItem of tableMap " cdkDrag [cdkDragData]="menuItem">
+  <div>
+
+      <p class="p2" >Table List</p>
+   
+    
+    <div>
+    
+  <ul class="nav" id="dragListTable" cdkDropList [cdkDropListConnectedTo]="['dropListTable']">
+ 
+    <li   *ngFor="let menuItem of tableMap;let i=index" 
+    [ngClass]="{'active': selectedIndex == i, 'nav-item': true}"
+    cdkDrag [cdkDragData]="menuItem">
       <a class="nav-link" [routerLink]="[menuItem.table_name]">
         <p>{{getConcatString(menuItem.table_name) | titlecase}}</p>
       </a>
 
-    </li> 
+    </li>
   </ul>
+</div>
+</div>
 
-  
 </div>

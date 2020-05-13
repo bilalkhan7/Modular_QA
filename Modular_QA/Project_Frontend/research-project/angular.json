@@ -34,7 +34,12 @@
               "./node_modules/moment/moment.js",
               "./node_modules/perfect-scrollbar/dist/perfect-scrollbar.min.js",
               "./node_modules/bootstrap-notify/bootstrap-notify.js",
-              "./node_modules/chartist/dist/chartist.js"
+              "./node_modules/chartist/dist/chartist.js",
+              "./node_modules/@swimlane/ngx-datatable/index.css",
+              "./node_modules/@swimlane/ngx-datatable/themes/material.scss",
+              "./node_modules/@swimlane/ngx-datatable/themes/dark.scss",
+              "./node_modules/@swimlane/ngx-datatable/themes/bootstrap.scss",
+              "./node_modules/@swimlane/ngx-datatable/assets/icons.css"
             ]
           },
           "configurations": {

@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { QueryBuilderModule } from 'angular2-query-builder';
 import { CustomHttpInterceptor } from './layouts/services/http-interceptor';
+import {AutocompleteLibModule} from 'angular-ng-autocomplete';
 import {
   AgmCoreModule
 } from '@agm/core';
@@ -27,12 +28,17 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatPaginatorModule } from "@angular/material/paginator";
+
+import { MatSortModule } from "@angular/material/sort";
+import { MatTableModule } from "@angular/material/table";
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { DashboardComponent } from './layouts/dashboard/dashboard.component';
-import {TestComponent} from './layouts/test/test.component';
-import {GraphsComponent} from './layouts/graphs/graphs.component';
+import { TestComponent } from './layouts/test/test.component';
+import { GraphsComponent } from './layouts/graphs/graphs.component';
 import { TableComponent } from './layouts/table/table.component';
-
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 @NgModule({
   imports: [
     BrowserAnimationsModule,
@@ -54,7 +60,14 @@ import { TableComponent } from './layouts/table/table.component';
     MatCardModule,
     MatRadioModule,
     MatDatepickerModule,
+    MatInputModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
     MatProgressSpinnerModule,
+    AutocompleteLibModule,
+    NgxDatatableModule,
+    MatAutocompleteModule,
     AgmCoreModule.forRoot({
       apiKey: 'YOUR_GOOGLE_MAPS_API_KEY'
     })
@@ -71,6 +84,7 @@ import { TableComponent } from './layouts/table/table.component';
     TableComponent,
     
 
+
   ], exports: [
     MatButtonModule,
     MatIconModule,
@@ -78,7 +92,7 @@ import { TableComponent } from './layouts/table/table.component';
 
   ],
 
-  providers: [TableService,{
+  providers: [TableService, {
     provide: HTTP_INTERCEPTORS,
     useClass: CustomHttpInterceptor,
     multi: true

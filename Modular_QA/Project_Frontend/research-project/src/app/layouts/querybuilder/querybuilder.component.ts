@@ -1,9 +1,9 @@
 import {
   Component, Input, OnChanges, OnInit, SimpleChanges,
-  ChangeDetectionStrategy, ViewChild, EventEmitter, Output, SimpleChange,ChangeDetectorRef
+  ChangeDetectionStrategy, ViewChild, EventEmitter, Output, ChangeDetectorRef
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { QueryBuilderConfig, FieldMap, QueryBuilderComponent } from 'angular2-query-builder';
+import { QueryBuilderConfig, QueryBuilderComponent } from 'angular2-query-builder';
 import { TablesMap } from '../interface/tables.map';
 
 
@@ -16,15 +16,15 @@ import { TablesMap } from '../interface/tables.map';
 
 })
 export class QuerybuilderComponent implements OnChanges, OnInit {
-  private _item:boolean;
+  private _item:string="";
   @Input() tableMapDrop: TablesMap[];
   @Input()
-  set isSubmitRequest(val: boolean) {
+  set isSubmitRequest(val: string) {
     if(val!==undefined)   
       {this._item=val;}
   }
 
-  get getSubmitRequest(): boolean { 
+  get getSubmitRequest(): string { 
     return this._item;
   }
 
@@ -59,7 +59,7 @@ export class QuerybuilderComponent implements OnChanges, OnInit {
     boolean: ['='],
 
   };
-  constructor(private cd: ChangeDetectorRef) {
+  constructor() {
     
 
   }
@@ -67,7 +67,7 @@ export class QuerybuilderComponent implements OnChanges, OnInit {
 
 
   ngOnInit() {
-    this.isSubmitRequest=false;
+
 
     
 
@@ -76,7 +76,8 @@ export class QuerybuilderComponent implements OnChanges, OnInit {
  ngOnChanges(changes: SimpleChanges) {
 
     this.dropData();
-    if(this._item)
+    console.log("submit",this._item);
+    if(this._item==="true")
     {
       this.submitData();
     }
@@ -92,6 +93,7 @@ export class QuerybuilderComponent implements OnChanges, OnInit {
     this.displayElement=true;
     if (this.tableMapDrop.length > 0) {
       this.tableNameArray = [];
+      this.queryArray=[];
       for (let i = 0; i < this.tableMapDrop.length; i++) {
         this.currentConfig[i] = (this.configData(this.tableMapDrop[i]));
 
@@ -112,8 +114,7 @@ export class QuerybuilderComponent implements OnChanges, OnInit {
     }
     columnArray.unshift('*');
     dataTypesArray.unshift('null');
-    console.log('column Array', columnArray);
-    console.log('dataType')
+  
     return this.configQueryBuilder(table_Name, columnArray, dataTypesArray);
   }
 
@@ -133,17 +134,16 @@ export class QuerybuilderComponent implements OnChanges, OnInit {
     var config =
     {
       fields: {
-
       }
     }
 
     for (var i = 0; i < fieldColumn.length; i++) {
 
+
       if (fieldColumn[i] === '*') {
         fieldsS[fieldColumn[i]] =
         {
           name: [fieldColumn[i]],
-          entity: table_name,
           type: 'string',
           operator: 'is null',
 
@@ -153,7 +153,7 @@ export class QuerybuilderComponent implements OnChanges, OnInit {
         fieldsS[fieldColumn[i]] =
         {
           name: [fieldColumn[i]],
-          type: [this.MapDataTypes(fieldDataType[i])],
+          type: this.MapDataTypes(fieldDataType[i]),
           entity: table_name,
           defaultValue: null
         }
@@ -167,23 +167,31 @@ export class QuerybuilderComponent implements OnChanges, OnInit {
 
  public submitData() {
  
-    let querySend = [];
-    console.log("table ",JSON.stringify(this.tableMapDrop));
-    console.log("query ",this.queryArray.length);
+  console.log("submit data");
+    let querySend ;
+    let objeTable;
+    console.log("query array",JSON.stringify(this.queryArray));
+ /*    for(let i=0;i<this.queryArray.length;i++)
+    {
+      let objeTable={[this.tableMapDrop[i].table_name]:this.queryArray[i]};
+      querySend[i]=objeTable;    
+    } */
     if(this.tableMapDrop.length>0 && this.queryArray.length>0){
       for (let i = 0; i < this.queryArray.length; i++) {
         if(this.tableMapDrop[i].table_name!==undefined){
-        let objeTable = { [this.tableMapDrop[i].table_name]: this.queryArray[i] };
-        querySend[i] = objeTable;
+        objeTable = { [this.tableMapDrop[i].table_name]: this.queryArray[i] };
+        console.log("Obj Table",objeTable);
         }
         else{
           alert("Error in rendireing table data");
         }
-        
-      
-      }
-    }
-   
+              
+
+      } }
+     // querySend[0] = objeTable;
+
+    
+    console.log("data",querySend);
     this.onSubmitData.emit(querySend);
     
   }
@@ -193,28 +201,33 @@ export class QuerybuilderComponent implements OnChanges, OnInit {
 
   MapDataTypes(type: string) {
     var datatype;
-    var datatypeNumber;
+
+
     if (type === this.characterType) {
       datatype = 'string';
-
+    
     }
 
      if (type === this.NumericType || type === this.IntergerType) {
       datatype = 'number';
+    
 
     }
     if (type === this.DateType) {
 
       datatype = 'date';
+
     }
     if (type === this.TimeType) {
       datatype = 'time';
+     
     }
     if (type==='boolean'){
       datatype = 'boolean';
+   
 
     }
-  console.log('datatype'+datatype);
+
     return datatype;
   }
 
@@ -222,22 +235,28 @@ export class QuerybuilderComponent implements OnChanges, OnInit {
 
   removeFromList(addedItem) {
     const index = this.tableMapDrop.indexOf(addedItem);
-    this.tableMapDrop.splice(index, 1);
+    this.tableMapDrop.splice(index);
+    this.currentConfig.splice(index);
   }
 
 
   handleCloseButton(event: Event,value) {
-    console.log(event);
-    //this.currentConfig[value].removeRuleSet;
+    console.log(value);
+    
+    console.log("fields",this.currentConfig[value].fields);
+    this.queryArray.splice(value,1)
     this.currentConfig.splice(value,1);
-    const index = this.tableMapDrop.indexOf(value);
-    console.log("table index"+index);
-    this.tableMapDrop.splice(index, 1);
-    //this.currentConfig.splice(value,1);
+    this.tableMapDrop.splice(value,1); 
+    //console.log("input field",this.currentConfig[value].getInputType.name);
+   
+ /*    
+    console.log("current Config after",this.currentConfig);
+    this.tableMapDrop.splice(value,1); */
+  
     
   }
   ngAfterViewInit() {
-    this.isSubmitRequest=false;
+    this.isSubmitRequest="false";
 }
  
 
