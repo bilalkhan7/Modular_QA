@@ -153,8 +153,8 @@ export class NavbarComponent implements OnInit, AfterViewInit {
     jsonArray=eventData;
     if(jsonArray!==undefined)
     {
-    console.log("data from child ", JSON.stringify(jsonArray));
-      
+   console.log("data from child ", JSON.stringify(jsonArray));
+  //  console.log("send json",JSON.stringify(this.addEmptyRulset(jsonArray))); 
     this.tableService.doWork().subscribe(
       success => {
    
@@ -168,6 +168,33 @@ export class NavbarComponent implements OnInit, AfterViewInit {
     }
 
   }
+
+   addEmptyRulset( jsonArray:any []):any[]{
+    var objRules:any[];
+    let newObjTable={}
+    
+    
+    for (let i=0;i<jsonArray.length;i++)
+    {
+      var keys=Object.keys(jsonArray[i]);
+      console.log("keys",keys);
+      var objeTable=jsonArray[i][keys[i]];
+      console.log("obj Table",objeTable);
+      objRules=objeTable["rules"];
+        if(objRules.length===0)
+       {
+        var emptyRules={"condition":"and","rules":[]};
+        objRules.push(emptyRules);
+        objeTable["rules"]=objRules;
+        jsonArray[i][keys[i]]=objeTable;
+        jsonArray[i]={[keys[i]]:jsonArray[i][keys[i]]}
+       }  
+      //console.log("Rules",objRules);
+    }
+    
+   return jsonArray; 
+  }
+   
 
  
 

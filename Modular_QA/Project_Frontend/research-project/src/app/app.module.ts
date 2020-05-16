@@ -34,6 +34,7 @@ import {TestComponent} from './layouts/test/test.component';
 import {GraphsComponent} from './layouts/graphs/graphs.component';
 import { TableComponent } from './layouts/table/table.component';
 
+
 @NgModule({
   imports: [
     BrowserAnimationsModule,

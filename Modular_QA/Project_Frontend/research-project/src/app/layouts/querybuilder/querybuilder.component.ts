@@ -36,20 +36,30 @@ export class QuerybuilderComponent implements OnChanges, OnInit {
   changeLog: string[] = [];
   public queryArray = [];
   public tableNameArray: string[] = [];
-  public allowRuleset = true;
+  public allowRuleset = false;
   public allowCollapse: boolean;
   public persistValueOnFieldChange = true;
   public queryCtrl: FormControl;
   public $table_name: string;
   @Input() config: QueryBuilderConfig;
-  public query: { condition: string; rules: { field: any; operator: string; value: string; }[]; };
-  public entity_table: string = '';
+ public entity_table: string = '';
   private characterType: string = "character varying";
   private NumericType: string = "numeric";
   private IntergerType: string = "integer";
   private DateType: string = "date";
   private TimeType: string = "timestamp without time zone";
   displayElement = true;
+  query = {
+    condition: 'and',
+    rules: [{
+      "condition": "and",
+      "rules": [
+        
+      ]
+    }
+     
+    ]
+  }
   myOperatorMap = {
     string: ['=', '!=', 'contains', 'like', 'is null'],
     number: ['=', '!=', '>', '>=', '<', '<='],
@@ -68,8 +78,8 @@ export class QuerybuilderComponent implements OnChanges, OnInit {
 
   ngOnInit() {
     this.isSubmitRequest=false;
-
     
+  //  this.queryArray.push(this.query); 
 
   }
 
@@ -92,9 +102,12 @@ export class QuerybuilderComponent implements OnChanges, OnInit {
     this.displayElement=true;
     if (this.tableMapDrop.length > 0) {
       this.tableNameArray = [];
+      this.queryArray=[];
       for (let i = 0; i < this.tableMapDrop.length; i++) {
         this.currentConfig[i] = (this.configData(this.tableMapDrop[i]));
-
+        this.queryArray[i]=this.query;
+        console.log("query array",this.queryArray[i])
+        //this.queryArray.push(this.query); 
       }
     }
 
@@ -130,7 +143,8 @@ export class QuerybuilderComponent implements OnChanges, OnInit {
     var fieldsS = {};
     var config =
     {
-      fields: {
+      fields: 
+      { 
 
       }
     }
@@ -144,7 +158,7 @@ export class QuerybuilderComponent implements OnChanges, OnInit {
           entity: table_name,
           type: 'string',
           operator: 'is null',
-
+         
         }
       }
       else {
@@ -153,11 +167,13 @@ export class QuerybuilderComponent implements OnChanges, OnInit {
           name: [fieldColumn[i]],
           type: this.MapDataTypes(fieldDataType[i]),
           entity: table_name,
-          defaultValue: null
+          defaultValue: null,
+         
         }
       }
     }
     config.fields = fieldsS;
+    
     return config;
   }
 
@@ -167,8 +183,12 @@ export class QuerybuilderComponent implements OnChanges, OnInit {
  
     let querySend = [];
     if(this.tableMapDrop.length>0 && this.queryArray.length>0){
+     
       for (let i = 0; i < this.queryArray.length; i++) {
         if(this.tableMapDrop[i].table_name!==undefined){
+   /*       if(this.queryArray[i]['rules'].length<1)
+         {this.queryArray[i]['rules'].push(emptyRules)} */
+         //this.addEmptyRulset(this.queryArray[i])
         let objeTable = { [this.tableMapDrop[i].table_name]: this.queryArray[i] };
         querySend[i] = objeTable;
         }
@@ -184,8 +204,22 @@ export class QuerybuilderComponent implements OnChanges, OnInit {
     
   }
 
-
-
+/* addEmptyRulset( objeTable:Object):object{
+  var objRules=[];
+  let newObjTable={}
+  newObjTable=objeTable
+  var keys=Object.keys(newObjTable);
+  var objeTableName=newObjTable[keys[0]];
+  var objRules=objeTableName["rules"];
+   if(objRules.length===0)
+   {
+    var emptyRules={"condition":"and","rules":[]};
+    objRules.push(emptyRules)
+   }
+  console.log("Rules",objRules);
+return objeTable;
+}
+ */
 
   MapDataTypes(type: string) {
     var datatype;
