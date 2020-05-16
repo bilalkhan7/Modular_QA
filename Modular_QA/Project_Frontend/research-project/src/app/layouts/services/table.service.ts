@@ -7,15 +7,16 @@ import {TablesMap} from '../interface/tables.map';
 @Injectable()
 export class TableService {
   //getdataurl="./assets/table_data.json";
-  getdataurl="http://localhost:3000/table_attributes";
+  getdataurl="http://localhost:5000/table_attributes";
  
  // postDataUrl="http://httpbin.org/post"
-  postDataUrl="http://localhost:3000/get_data"
+  postDataUrl="http://localhost:5000/sql_generate"
   postDataServer={
     test:'test'
   }
  constructor(private httpClient: HttpClient) { }
   fetchData = (): Observable<TablesMap[]> => {
+    console.log(this.httpClient.get<TablesMap[]>(this.getdataurl))
     return this.httpClient.get<TablesMap[]>(this.getdataurl);
   }
 

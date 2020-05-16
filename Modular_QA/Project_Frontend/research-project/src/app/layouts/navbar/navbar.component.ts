@@ -78,7 +78,7 @@ export class NavbarComponent implements OnInit, AfterViewInit {
     console.log("data from child ", JSON.stringify(jsonArray));
     }
     
-    this.tableService.doWork().subscribe(
+    this.tableService.sendPostRequest(jsonArray).subscribe(
       success => {
         console.log('Done');
       },

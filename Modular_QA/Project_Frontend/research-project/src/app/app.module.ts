@@ -19,6 +19,7 @@ import { NavbarComponent } from './layouts/navbar/navbar.component';
 import { MatButtonModule, } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
@@ -55,6 +56,7 @@ import { TableComponent } from './layouts/table/table.component';
     MatRadioModule,
     MatDatepickerModule,
     MatProgressSpinnerModule,
+    MatAutocompleteModule,
     AgmCoreModule.forRoot({
       apiKey: 'YOUR_GOOGLE_MAPS_API_KEY'
     })
