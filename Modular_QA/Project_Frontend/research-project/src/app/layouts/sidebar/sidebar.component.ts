@@ -1,11 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core'
 import { TableService } from '../services/table.service'
 import { TablesMap } from '../interface/tables.map'
+import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
-import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
-import { trigger } from '@angular/animations';
 
 
 @Component({
@@ -76,19 +75,6 @@ export class SidebarComponent implements OnInit {
     }
 
     ngAfterViewInit() {
-      // Clear the input and emit when a selection is made
-      /* this.trigger.autocomplete.optionSelected.pipe( map(event => event.option)
-      subscribe(option => {
-        // This may or may not be needed, depending on your purposes
-        option.deselect();
-  
-        // Emit the selection (so parent component can add chip)
-        this.selection.emit(option.value);
-  
-        // Reset the value of the input
-        this.searchControl.setValue('');
-      })
-     ); */
+    
     }
-
 }

@@ -31,3 +31,8 @@ html{
   #firstname {
     background-color: #fd9b16;margin-top: 50px;;margin-right: 10px; visibility:visible;
   }
+
+  ::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-ripple .mat-ripple-element {
+    opacity: 0.03 !important;
+    background-color: #005691!important;
+  }

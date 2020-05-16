@@ -1,0 +1,35 @@
+{
+  "name": "node-api-postgres",
+  "version": "1.0.0",
+  "description": "RESTful API with Node.js, Express, and PostgreSQL",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node ./routes.ts ",
+    "dev": "concurrently --kill-others  \"nodemon modular.py\" \nodemon routes.ts\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "cross-fetch": "^3.0.4",
+    "dotenv": "8.2.0",
+    "ejs": "^3.0.1",
+    "express": "^4.17.1",
+    "knex": "^0.20.13",
+    "node-fetch": "^2.6.0",
+    "pg": "^7.18.2",
+    "pg-pool": "^2.0.10",
+    "python-shell": "^1.0.8",
+    "request": "^2.88.2",
+    "request-promise": "^4.2.5",
+    "requestify": "^0.2.5",
+    "ts": "0.2.2",
+    "ts-node": "8.6.2",
+    "typescript": "3.8.3"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.2",
+    "concurrently": "^5.2.0",
+    "nodemon": "^2.0.2"
+  }
+}
