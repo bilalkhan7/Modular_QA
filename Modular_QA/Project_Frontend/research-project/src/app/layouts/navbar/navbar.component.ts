@@ -5,6 +5,7 @@ import { QuerybuilderComponent } from '../querybuilder/querybuilder.component';
 import { SpinnerService } from '../services/spinner.service';
 import { TableService } from '../services/table.service';
 import { HttpClient } from '@angular/common/http';
+import { ResponseData } from '../interface/Response';
 
 @Component({
   selector: 'app-navbar',
@@ -15,6 +16,7 @@ import { HttpClient } from '@angular/common/http';
 export class NavbarComponent implements OnInit, AfterViewInit {
   @ViewChild(QuerybuilderComponent /* #name or Type*/, {static: false}) child;
   public tableMapDrop: TablesMap[] = [];
+  responseData:ResponseData;
   public isSubmitRequest=false;
   displayElement = true;
   showSpinner: boolean;
@@ -156,10 +158,11 @@ export class NavbarComponent implements OnInit, AfterViewInit {
    console.log("data from child ", JSON.stringify(jsonArray));
   //  console.log("send json",JSON.stringify(this.addEmptyRulset(jsonArray))); 
     this.tableService.doWork().subscribe(
-      success => {
-   
-        this.onSearchDataResult.emit(this.tableArray);
-        console.log('Done');
+      data => {
+        this.responseData=data
+       this.mapData(this.responseData);
+        // this.onSearchDataResult.emit(this.tableArray);
+       // console.log('Done'+JSON.stringify(this.responseData));
       },
       error => {
         console.error('Error');
@@ -168,6 +171,19 @@ export class NavbarComponent implements OnInit, AfterViewInit {
     }
 
   }
+
+
+  mapData(objResponse:ResponseData)
+  {
+
+console.log("Columns Array",objResponse["columns_array"]);
+console.log("Data Array",objResponse["data"]);
+console.log("error",objResponse["error"]);
+console.log("error_status",objResponse["error_status"]);
+console.log("query",objResponse["query"]);
+
+  }
+
 
    addEmptyRulset( jsonArray:any []):any[]{
     var objRules:any[];

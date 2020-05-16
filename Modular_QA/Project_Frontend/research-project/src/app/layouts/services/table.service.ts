@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {TablesMap} from '../interface/tables.map';
+import {ResponseData} from '../interface/Response'
 
 
 @Injectable()
@@ -24,9 +25,9 @@ export class TableService {
     return this.httpClient.post<any>(this.postDataUrl, data);
 }
 
-doWork() {
+doWork=():Observable<ResponseData>=> {
   // Make a get request
- return this.httpClient.get<any>('http://dummy.restapiexample.com/api/v1/employees');
+ return this.httpClient.get<ResponseData>('./assets/response.json');
   
 }
 }
