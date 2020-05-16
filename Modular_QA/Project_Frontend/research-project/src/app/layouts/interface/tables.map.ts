@@ -4,3 +4,9 @@ export interface TablesMap {
   data_type ?: string[] | null;
 }
 
+export interface IUserResponse {
+  total: number;
+  results: TablesMap[];
+}
+
+

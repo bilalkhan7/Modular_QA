@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, Output, EventEmitter } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop'
 import { TablesMap } from '../interface/tables.map'
 import { QuerybuilderComponent } from '../querybuilder/querybuilder.component';
@@ -13,21 +13,96 @@ import { HttpClient } from '@angular/common/http';
 
 })
 export class NavbarComponent implements OnInit, AfterViewInit {
-  @ViewChild(QuerybuilderComponent /* #name or Type*/, {static: false}) child;
   public tableMapDrop: TablesMap[] = [];
   public isSubmitRequest=false;
   displayElement = true;
   showSpinner: boolean;
-  constructor(public spinnerService: SpinnerService,private tableService:TableService,private _http: HttpClient) {
+  @Output() onSearchDataResult: EventEmitter<any> = new EventEmitter<any>();
+  @Output() onClearHideTableView:EventEmitter<string>=new EventEmitter <string>();
+  tableArray=  [
+    {
+      "a_unit_sales": "3.0000",
+      "b_fname": "Sharon",
+      "a_unit_discount": "3.0000",
+      "b_name": "Sharon",
+      "c_unit_share": "3.0000",
+      "d_name_test": "Sharon",
+
+    },
+    {
+      "a_unit_sales": "3.0000",
+      "b_fname": "Sharon",
+      "a_unit_discount": "3.0000",
+      "b_name": "Sharon",
+      "c_unit_share": "3.0000",
+      "d_name_test": "Sharon",
+    },
+    {
+      "a_unit_sales": "3.0000",
+      "b_fname": "Sharon",
+      "a_unit_discount": "3.0000",
+      "b_name": "Sharon",
+      "c_unit_share": "3.0000",
+      "d_name_test": "Sharon",
+    }, {
+      "a_unit_sales": "3.0000",
+      "b_fname": "Sharon",
+      "a_unit_discount": "3.0000",
+      "b_name": "Sharon",
+      "c_unit_share": "3.0000",
+      "d_name_test": "Sharon",
+    }, {
+      "a_unit_sales": "3.0000",
+      "b_fname": "Sharon",
+      "a_unit_discount": "3.0000",
+      "b_name": "Sharon",
+      "c_unit_share": "3.0000",
+      "d_name_test": "Sharon",
+    }, {
+      "a_unit_sales": "3.0000",
+      "b_fname": "Sharon",
+      "a_unit_discount": "3.0000",
+      "b_name": "Sharon",
+      "c_unit_share": "3.0000",
+      "d_name_test": "Sharon",
+    }, {
+      "a_unit_sales": "3.0000",
+      "b_fname": "Sharon",
+      "a_unit_discount": "3.0000",
+      "b_name": "Sharon",
+      "c_unit_share": "3.0000",
+      "d_name_test": "Sharon",
+    }, {
+      "a_unit_sales": "3.0000",
+      "b_fname": "Sharon",
+      "a_unit_discount": "3.0000",
+      "b_name": "Sharon",
+      "c_unit_share": "3.0000",
+      "d_name_test": "Sharon",
+    }, {
+      "a_unit_sales": "3.0000",
+      "b_fname": "Sharon",
+      "a_unit_discount": "3.0000",
+      "b_name": "Sharon",
+      "c_unit_share": "3.0000",
+      "d_name_test": "Sharon",
+    },
+    {
+      "a_unit_sales": "3.0000",
+      "b_fname": "Sharon",
+      "a_unit_discount": "3.0000",
+      "b_name": "Sharon",
+      "c_unit_share": "3.0000",
+      "d_name_test": "Sharon",
+    }];
+
+
+  constructor(private tableService:TableService,private _http: HttpClient) {
     
    }
 
   ngOnInit() {
-    setTimeout(() => {
-      this.isSubmitRequest=false;
-      console.log('value changed', this.tableMapDrop); 
-  });
-   
+
   }
 
 
@@ -40,8 +115,7 @@ export class NavbarComponent implements OnInit, AfterViewInit {
         return;
       } else {
         this.tableMapDrop = this.tableMapDrop.concat(event.item.data);
-        //this.tableMapDrop.push(event.item.data);
-        //  console.log('tables',this.tableMapDrop);
+       
       }
 
     }
@@ -55,13 +129,16 @@ export class NavbarComponent implements OnInit, AfterViewInit {
   handleCloseButton(hideview:boolean) {
     this.tableMapDrop = [];
     this.displayElement = hideview;
-    console.log("displayElement", this.displayElement);
-
+    this.onClearHideTableView.emit('false');
+    
   }
   getJsonDataFromChild()
   {
     if(this.tableMapDrop.length>0)
-    {this.isSubmitRequest=true;}
+    {
+      this.isSubmitRequest=true;
+      console.log("get json data ",this.isSubmitRequest);
+    }
     else{
       alert("No Table Added for search");
     }
@@ -76,30 +153,27 @@ export class NavbarComponent implements OnInit, AfterViewInit {
     if(jsonArray!==undefined)
     {
     console.log("data from child ", JSON.stringify(jsonArray));
-    }
+  
     
     this.tableService.sendPostRequest(jsonArray).subscribe(
       success => {
+   
+        this.onSearchDataResult.emit(this.tableArray);
         console.log('Done');
       },
       error => {
         console.error('Error');
       }
     );
+  }
 
-    /* this.webTableService.sendPostRequest(querySend).subscribe(
-      res => {
-        console.log(res);
-      }
-    );
-    console.log(console.log('uiExpression ', JSON.stringify(querySend)));
-   
- */
+ 
   }
 
  
 
   ngAfterViewInit() {
+    this.isSubmitRequest=false;
    /*  this.isSubmitRequest=false; */
   }
   

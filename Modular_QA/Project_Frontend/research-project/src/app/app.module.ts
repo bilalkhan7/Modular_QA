@@ -28,10 +28,13 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatPaginatorModule } from "@angular/material/paginator";
+import { MatSortModule } from "@angular/material/sort";
+import { MatTableModule } from "@angular/material/table";
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { DashboardComponent } from './layouts/dashboard/dashboard.component';
-import {TestComponent} from './layouts/test/test.component';
-import {GraphsComponent} from './layouts/graphs/graphs.component';
+import { TestComponent } from './layouts/test/test.component';
+import { GraphsComponent } from './layouts/graphs/graphs.component';
 import { TableComponent } from './layouts/table/table.component';
 
 @NgModule({
@@ -55,6 +58,10 @@ import { TableComponent } from './layouts/table/table.component';
     MatCardModule,
     MatRadioModule,
     MatDatepickerModule,
+    MatInputModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
     MatProgressSpinnerModule,
     MatAutocompleteModule,
     AgmCoreModule.forRoot({
@@ -73,6 +80,7 @@ import { TableComponent } from './layouts/table/table.component';
     TableComponent,
     
 
+
   ], exports: [
     MatButtonModule,
     MatIconModule,
@@ -80,7 +88,7 @@ import { TableComponent } from './layouts/table/table.component';
 
   ],
 
-  providers: [TableService,{
+  providers: [TableService, {
     provide: HTTP_INTERCEPTORS,
     useClass: CustomHttpInterceptor,
     multi: true
