@@ -34,8 +34,10 @@ import {TestComponent} from './layouts/test/test.component';
 import {GraphsComponent} from './layouts/graphs/graphs.component';
 import { TableComponent } from './layouts/table/table.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-
-
+import {MatTableModule} from '@angular/material/table';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import {NgxPaginationModule} from 'ngx-pagination'; 
 @NgModule({
   imports: [
     BrowserAnimationsModule,
@@ -59,6 +61,10 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MatDatepickerModule,
     MatAutocompleteModule,
     MatProgressSpinnerModule,
+    MatTableModule,
+    Ng2SearchPipeModule,
+    MatPaginatorModule,
+    NgxPaginationModule,
     AgmCoreModule.forRoot({
       apiKey: 'YOUR_GOOGLE_MAPS_API_KEY'
     })

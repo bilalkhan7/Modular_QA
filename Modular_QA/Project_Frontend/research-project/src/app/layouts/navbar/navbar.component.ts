@@ -20,85 +20,10 @@ export class NavbarComponent implements OnInit, AfterViewInit {
   public isSubmitRequest=false;
   displayElement = true;
   showSpinner: boolean;
-  @Output() onSearchDataResult: EventEmitter<any> = new EventEmitter<any>();
+  @Output() onSearchDataResult: EventEmitter<ResponseData> = new EventEmitter<ResponseData>();
   @Output() onClearHideTableView:EventEmitter<string>=new EventEmitter <string>();
 
-  tableArray=  [
-    {
-      "a_unit_sales": "3.0000",
-      "b_fname": "Sharon",
-      "a_unit_discount": "3.0000",
-      "b_name": "Sharon",
-      "c_unit_share": "3.0000",
-      "d_name_test": "Sharon",
 
-    },
-    {
-      "a_unit_sales": "3.0000",
-      "b_fname": "Sharon",
-      "a_unit_discount": "3.0000",
-      "b_name": "Sharon",
-      "c_unit_share": "3.0000",
-      "d_name_test": "Sharon",
-    },
-    {
-      "a_unit_sales": "3.0000",
-      "b_fname": "Sharon",
-      "a_unit_discount": "3.0000",
-      "b_name": "Sharon",
-      "c_unit_share": "3.0000",
-      "d_name_test": "Sharon",
-    }, {
-      "a_unit_sales": "3.0000",
-      "b_fname": "Sharon",
-      "a_unit_discount": "3.0000",
-      "b_name": "Sharon",
-      "c_unit_share": "3.0000",
-      "d_name_test": "Sharon",
-    }, {
-      "a_unit_sales": "3.0000",
-      "b_fname": "Sharon",
-      "a_unit_discount": "3.0000",
-      "b_name": "Sharon",
-      "c_unit_share": "3.0000",
-      "d_name_test": "Sharon",
-    }, {
-      "a_unit_sales": "3.0000",
-      "b_fname": "Sharon",
-      "a_unit_discount": "3.0000",
-      "b_name": "Sharon",
-      "c_unit_share": "3.0000",
-      "d_name_test": "Sharon",
-    }, {
-      "a_unit_sales": "3.0000",
-      "b_fname": "Sharon",
-      "a_unit_discount": "3.0000",
-      "b_name": "Sharon",
-      "c_unit_share": "3.0000",
-      "d_name_test": "Sharon",
-    }, {
-      "a_unit_sales": "3.0000",
-      "b_fname": "Sharon",
-      "a_unit_discount": "3.0000",
-      "b_name": "Sharon",
-      "c_unit_share": "3.0000",
-      "d_name_test": "Sharon",
-    }, {
-      "a_unit_sales": "3.0000",
-      "b_fname": "Sharon",
-      "a_unit_discount": "3.0000",
-      "b_name": "Sharon",
-      "c_unit_share": "3.0000",
-      "d_name_test": "Sharon",
-    },
-    {
-      "a_unit_sales": "3.0000",
-      "b_fname": "Sharon",
-      "a_unit_discount": "3.0000",
-      "b_name": "Sharon",
-      "c_unit_share": "3.0000",
-      "d_name_test": "Sharon",
-    }];
   constructor(public spinnerService: SpinnerService,private tableService:TableService,private _http: HttpClient) {
     
    }
@@ -132,18 +57,17 @@ export class NavbarComponent implements OnInit, AfterViewInit {
 
 
 
-  handleCloseButton(hideview:boolean) {
+  clearView(hideview:boolean) {
     this.tableMapDrop = [];
     this.displayElement = hideview;
-    console.log("displayElement", this.displayElement);
-
+   
   }
   getJsonDataFromChild()
   {
     if(this.tableMapDrop.length>0)
     {
       this.isSubmitRequest=true;
-      console.log("get json data ",this.isSubmitRequest);
+     
     }
     else{
       alert("No Table Added for search");
@@ -158,15 +82,12 @@ export class NavbarComponent implements OnInit, AfterViewInit {
     jsonArray=eventData;
     if(jsonArray!==undefined)
     {
-   console.log("data from child ", JSON.stringify(jsonArray));
-  //  console.log("send json",JSON.stringify(this.addEmptyRulset(jsonArray))); 
-    this.tableService.sendPostRequest(jsonArray).subscribe(
+    this.tableService.sendPostRequest().subscribe(
       data => {
         this.responseData=data
-       this.mapData(this.responseData);
-        // this.onSearchDataResult.emit(this.tableArray);
-       // console.log('Done'+JSON.stringify(this.responseData));
-      },
+         this.onSearchDataResult.emit(this.responseData);
+         this.clearView(false)
+            },
       error => {
         console.error('Error');
       }
@@ -175,45 +96,6 @@ export class NavbarComponent implements OnInit, AfterViewInit {
 
   }
 
-
-  mapData(objResponse:ResponseData)
-  {
-
-console.log("Columns Array",objResponse["columns_array"]);
-console.log("Data Array",objResponse["data"]);
-console.log("error",objResponse["error"]);
-console.log("error_status",objResponse["error_status"]);
-console.log("query",objResponse["query"]);
-
-  }
-
-
-   addEmptyRulset( jsonArray:any []):any[]{
-    var objRules:any[];
-    let newObjTable={}
-    
-    
-    for (let i=0;i<jsonArray.length;i++)
-    {
-      var keys=Object.keys(jsonArray[i]);
-      console.log("keys",keys);
-      var objeTable=jsonArray[i][keys[i]];
-      console.log("obj Table",objeTable);
-      objRules=objeTable["rules"];
-        if(objRules.length===0)
-       {
-        var emptyRules={"condition":"and","rules":[]};
-        objRules.push(emptyRules);
-        objeTable["rules"]=objRules;
-        jsonArray[i][keys[i]]=objeTable;
-        jsonArray[i]={[keys[i]]:jsonArray[i][keys[i]]}
-       }  
-      //console.log("Rules",objRules);
-    }
-    
-   return jsonArray; 
-  }
-   
 
  
 

@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import 'rxjs/add/operator/filter';
 import { SpinnerService } from '../services/spinner.service';
+import { ResponseData } from '../interface/Response';
 
 @Component({
   selector: 'app-admin-layout',
@@ -8,7 +9,7 @@ import { SpinnerService } from '../services/spinner.service';
   styleUrls: ['./admin-layout.component.scss']
 })
 export class AdminLayoutComponent  {
-  @Input() searchResult=[];
+  @Input() searchResult:ResponseData;
   @Input() displayView='';
   public display=false;
   constructor(public spinnerService: SpinnerService)
@@ -16,14 +17,13 @@ export class AdminLayoutComponent  {
     
   }
 
-  searchResponse(eventData:[])
+  searchResponse(eventData:ResponseData)
   {
     
-    if(eventData.length!==undefined && eventData.length>0)
+    if(eventData!==null )
     {
       console.log()
     this.display=true;
-    this.searchResult=[];
     this.searchResult=eventData;
     console.log("search",this.searchResult);
     }

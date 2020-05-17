@@ -7,8 +7,11 @@ import {ResponseData} from '../interface/Response'
 
 @Injectable()
 export class TableService {
-  getdataurl="http://localhost:5000/table_attributes";
-   postDataUrl="http://localhost:5000/sql_generate"
+  //getdataurl="http://localhost:5000/table_attributes";
+  getdataurl="./assets/table_data.json";
+  
+  //postDataUrl="http://localhost:5000/sql_generate"
+  postDataUrl="./assets/response.json"
   postDataServer={
     test:'test'
   }
@@ -18,8 +21,11 @@ export class TableService {
   }
 
  
-  sendPostRequest(data: any): Observable<ResponseData> {
+ /*  sendPostRequest(data: any): Observable<ResponseData> {
     return this.httpClient.post<ResponseData>(this.postDataUrl, data);
+ */
+    sendPostRequest(): Observable<ResponseData> {
+      return this.httpClient.get<ResponseData>(this.postDataUrl);
 }
 
 
