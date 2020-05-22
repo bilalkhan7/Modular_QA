@@ -34,12 +34,19 @@ import {TestComponent} from './layouts/test/test.component';
 import {GraphsComponent} from './layouts/graphs/graphs.component';
 import { TableComponent } from './layouts/table/table.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-
-
+import {MatTableModule} from '@angular/material/table';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import {NgxPaginationModule} from 'ngx-pagination'; 
+import {MatDialogModule} from '@angular/material/dialog';
+import {DialogComponent } from './layouts/table/popup/dialog/dialog.component';
+import {MatGridListModule} from '@angular/material/grid-list';
+import {FormService} from './layouts/services/form.service';
 @NgModule({
   imports: [
     BrowserAnimationsModule,
     FormsModule,
+    MatGridListModule,
     ReactiveFormsModule,
     HttpClientModule,
     RouterModule,
@@ -59,6 +66,11 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MatDatepickerModule,
     MatAutocompleteModule,
     MatProgressSpinnerModule,
+    MatTableModule,
+    Ng2SearchPipeModule,
+    MatPaginatorModule,
+    NgxPaginationModule,
+    MatDialogModule,
     AgmCoreModule.forRoot({
       apiKey: 'YOUR_GOOGLE_MAPS_API_KEY'
     })
@@ -73,7 +85,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     TestComponent,
     GraphsComponent,
     TableComponent,
-    
+    DialogComponent
 
   ], exports: [
     MatButtonModule,
@@ -86,7 +98,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     provide: HTTP_INTERCEPTORS,
     useClass: CustomHttpInterceptor,
     multi: true
-  }],
-  bootstrap: [AppComponent]
+  },FormService],
+  bootstrap: [AppComponent],
+  entryComponents:[DialogComponent]
 })
 export class AppModule { }
