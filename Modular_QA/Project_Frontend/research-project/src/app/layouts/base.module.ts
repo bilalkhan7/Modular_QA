@@ -5,15 +5,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BaseAppRoutes } from './base.routing';
 
 
-import {MatButtonModule} from '@angular/material/button';
-import {MatInputModule} from '@angular/material/input';
-import {MatRippleModule} from '@angular/material/core';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatTooltipModule} from '@angular/material/tooltip';
-import {MatSelectModule} from '@angular/material/select';
-import {TableService } from './services/table.service';
-import {MatIconModule} from '@angular/material/icon';
-import{MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatRippleModule } from '@angular/material/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSelectModule } from '@angular/material/select';
+import { TableService } from './services/table.service';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 /* import { QueryBuilderModule } from 'angular2-query-builder'; */
 import { MatCardModule } from '@angular/material/card';
@@ -21,6 +21,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatRadioModule } from '@angular/material/radio';
+import { FormComponent } from './table/popup/form/form.component';
+
 
 /* import { TestComponent } from './test/test.component';
 import { GraphsComponent } from './graphs/graphs.component'; */
@@ -47,21 +49,19 @@ import { GraphsComponent } from './graphs/graphs.component'; */
     MatRadioModule,
     MatSelectModule,
     MatProgressSpinnerModule
-   /*  QueryBuilderModule, */
+    /*  QueryBuilderModule, */
   ],
-  declarations: [
-  
-
-],
+  declarations:
+   [FormComponent],
   exports: [
     MatButtonModule,
     MatInputModule,
     MatIconModule,
 
   ],
-   providers: [TableService
+  providers: [TableService
   ],
 
 })
 
-export class BaseAppModule {}
+export class BaseAppModule { }

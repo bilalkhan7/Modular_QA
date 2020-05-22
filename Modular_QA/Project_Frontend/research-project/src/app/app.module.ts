@@ -38,10 +38,15 @@ import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import {NgxPaginationModule} from 'ngx-pagination'; 
+import {MatDialogModule} from '@angular/material/dialog';
+import {DialogComponent } from './layouts/table/popup/dialog/dialog.component';
+import {MatGridListModule} from '@angular/material/grid-list';
+import {FormService} from './layouts/services/form.service';
 @NgModule({
   imports: [
     BrowserAnimationsModule,
     FormsModule,
+    MatGridListModule,
     ReactiveFormsModule,
     HttpClientModule,
     RouterModule,
@@ -65,6 +70,7 @@ import {NgxPaginationModule} from 'ngx-pagination';
     Ng2SearchPipeModule,
     MatPaginatorModule,
     NgxPaginationModule,
+    MatDialogModule,
     AgmCoreModule.forRoot({
       apiKey: 'YOUR_GOOGLE_MAPS_API_KEY'
     })
@@ -79,7 +85,7 @@ import {NgxPaginationModule} from 'ngx-pagination';
     TestComponent,
     GraphsComponent,
     TableComponent,
-    
+    DialogComponent
 
   ], exports: [
     MatButtonModule,
@@ -92,7 +98,8 @@ import {NgxPaginationModule} from 'ngx-pagination';
     provide: HTTP_INTERCEPTORS,
     useClass: CustomHttpInterceptor,
     multi: true
-  }],
-  bootstrap: [AppComponent]
+  },FormService],
+  bootstrap: [AppComponent],
+  entryComponents:[DialogComponent]
 })
 export class AppModule { }
